@@ -1,18 +1,17 @@
 import styles from './style.module.css';
 import { useState } from 'preact/hooks';
-import { useContent } from '../../lib/use-fetch';
+import { usePocketBase } from '../../lib/use-network';
 
 export default function Home() {
 	const [count, setCount] = useState(0);
-	const { items } = useContent('https://api.coffeeandcode.app/api/collections/tracks/records');
+	const records = usePocketBase<{ audio: string }>('tracks');
 
-	
 	return (
 		<>
 			<section class={styles.home}>
 				<h1>Home</h1>
 				<p>This is the home page.</p>
-				{items.map(item => <p>{item.audio}</p>)}
+	{records.map(record => <p>{record.audio}</p>)}
 				<>
 					<button style={{ width: 30 }} onClick={() => setCount(count - 1)}>
 						-
