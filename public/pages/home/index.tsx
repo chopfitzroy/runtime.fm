@@ -2,14 +2,17 @@ import PocketBase from 'pocketbase';
 import styles from './style.module.css';
 
 import { useState } from 'preact/hooks';
-import { usePromise } from '../../lib/use-network';
+import { usePromise } from '../../lib/use-promise';
 
 const PB = new PocketBase('https://api.coffeeandcode.app');
+
+const getTracks = () => PB.collection('tracks').getFullList<{ audio: string }>(200, {
+	sort: '-created',
+})
+
 export default function Home() {
 	const [count, setCount] = useState(0);
-	const records = usePromise('tracks', () => PB.collection('tracks').getFullList<{ audio: string }>(200, {
-		sort: '-created',
-	}));
+	const records = usePromise('tracks', getTracks);
 
 	return (
 		<>
