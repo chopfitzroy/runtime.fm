@@ -4,7 +4,8 @@ import Home from './pages/home/index.js';
 
 import { createContext } from 'preact';
 import { Router, Route, lazy } from 'preact-iso';
-import { usePromise } from './lib/use-promise.js';
+import { useErrorBoundary } from "preact/hooks";
+import { useAsset } from 'use-asset';
 
 const PB = new PocketBase('https://api.coffeeandcode.app');
 
@@ -18,7 +19,18 @@ const ShowNotes = lazy(() => import('./pages/show-notes'));
 export const Tracks = createContext<Awaited<ReturnType<typeof getTracks>>>([]);
 
 export function Routes() {
-  const tracks = usePromise('tracks', getTracks);
+  const tracks = useAsset(getTracks)
+
+  const [error, reset] = useErrorBoundary();
+
+  if (error) {
+    return (
+      <div>
+        <p>{error.message}</p>
+        <button onClick={reset}>Reset</button>
+      </div>
+    )
+  }
 
   return (
     <Tracks.Provider value={tracks}>

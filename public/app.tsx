@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 import Header from './header.js';
 
 import { Routes } from './routes';
@@ -9,7 +11,7 @@ export function App() {
 			<div class="app">
 				<Header />
 				<ErrorBoundary>
-          <Routes />
+					<Routes />
 				</ErrorBoundary>
 			</div>
 		</LocationProvider>

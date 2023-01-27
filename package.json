@@ -11,7 +11,8 @@
 	"dependencies": {
 		"pocketbase": "^0.10.1",
 		"preact": "^10.11.3",
-		"preact-iso": "^2.3.1"
+		"preact-iso": "^2.3.1",
+		"use-asset": "^1.0.4"
 	},
 	"devDependencies": {
 		"wmr": "^3.8.0"
