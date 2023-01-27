@@ -8,7 +8,7 @@ import { ErrorInterface } from './components/error-interface';
 export function App() {
 	return (
 		<LocationProvider>
-			<div class="app">
+			<div>
 				<Header />
 				<ErrorBoundary>
 					<TracksProvider>

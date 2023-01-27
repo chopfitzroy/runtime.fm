@@ -11,3 +11,11 @@ A number of hooks were evaluated before deciding on `use-fetch` below are some o
 - [`pmndrs/use-asset`](https://github.com/pmndrs/use-asset)
 
 There was even a period where we [rolled our own](https://github.com/preactjs/wmr/discussions/950).
+
+### Tailwind
+
+[PostCSS is currently not supported](https://github.com/preactjs/wmr/issues/250) which makes Tailwind usage impossible.
+
+Fortunately [twind](https://twind.dev/) exists and includes an out of the box [WMR integration](https://twind.dev/usage-guides/wmr.html).
+
+Unfortunately because we are using `preact/compat` we are [required](https://github.com/tw-in-js/use-twind-with/pull/21) to use `className` until a fix is found.

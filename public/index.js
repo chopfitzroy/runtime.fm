@@ -1,8 +1,9 @@
-import { hydrate, prerender as ssr } from 'preact-iso';
+import withTwind from '@twind/wmr';
+
 import { App } from './app';
+
+const { hydrate, prerender } = withTwind((data) => <App {...data} />)
 
 hydrate(<App />);
 
-export async function prerender(data) {
-	return await ssr(<App {...data} />);
-}
+export { prerender };
