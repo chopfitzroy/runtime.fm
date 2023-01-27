@@ -1,7 +1,7 @@
 import styles from './style.module.css';
 
 import { useContext, useState } from 'preact/hooks';
-import { Tracks } from '../../routes';
+import { Tracks } from '../../context/tracks';
 
 export default function Home() {
 	const [count, setCount] = useState(0);

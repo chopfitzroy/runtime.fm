@@ -1,9 +1,9 @@
-import type { ReactNode } from 'react';
-
-import Header from './header.js';
+import Header from './components/header';
 
 import { Routes } from './routes';
+import { TracksProvider } from './context/tracks';
 import { LocationProvider, ErrorBoundary } from 'preact-iso';
+import { ErrorInterface } from './components/error-interface';
 
 export function App() {
 	return (
@@ -11,7 +11,11 @@ export function App() {
 			<div class="app">
 				<Header />
 				<ErrorBoundary>
-					<Routes />
+					<TracksProvider>
+						<ErrorInterface>
+							<Routes />
+						</ErrorInterface>
+					</TracksProvider>
 				</ErrorBoundary>
 			</div>
 		</LocationProvider>

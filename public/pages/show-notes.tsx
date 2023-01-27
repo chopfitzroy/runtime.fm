@@ -1,7 +1,7 @@
 import PocketBase from 'pocketbase';
 
 import { useRoute } from "preact-iso";
-import { usePromise } from "../lib/use-promise";
+import { useAsset } from 'use-asset';
 
 const PB = new PocketBase('https://api.coffeeandcode.app');
 
@@ -12,7 +12,7 @@ const ShowNotes = () => {
 	// @TODO
 	// - We can just pull this from the context
 	// - But good to know a request will work and pre-render
-	const details = usePromise(route.params.id, getTrack)
+	const details = useAsset(getTrack, route.params.id)
 
 	return <p>{details.description}</p>
 }
