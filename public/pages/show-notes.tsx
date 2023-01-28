@@ -1,20 +1,19 @@
-import PocketBase from 'pocketbase';
-
 import { useRoute } from "preact-iso";
-import { useAsset } from 'use-asset';
+import { useContext } from "preact/hooks";
+import { Tracks } from "../context/tracks";
 
-const PB = new PocketBase('https://api.coffeeandcode.app');
-
-const getTrack = (id: string) => PB.collection('tracks').getFirstListItem(`id="${id}"`);
 
 const ShowNotes = () => {
 	const route = useRoute();
-	// @TODO
-	// - We can just pull this from the context
-	// - But good to know a request will work and pre-render
-	const details = useAsset(getTrack, route.params.id)
+	const tracks = useContext(Tracks)
 
-	return <p>{details.description}</p>
+	const current = tracks.find(track => track.id === route.params.id);
+
+	if (current === undefined) {
+		return <p>Sorry, we were unable to find show notes 👀</p>
+	}
+
+	return <p>{current.description}</p>
 }
 
 export default ShowNotes;

@@ -1,13 +1,17 @@
-import PocketBase from 'pocketbase';
-
 import { useAsset } from 'use-asset';
 import { createContext, VNode } from 'preact';
+import { Collection, pocketbase } from '../helpers/pocketbase';
 
-const PB = new PocketBase('https://api.coffeeandcode.app');
+export type TrackCollection = Collection<{
+  title: string;
+  audio: string;
+  description: string;
+}>;
 
-const getTracks = () => PB.collection('tracks').getFullList<{ audio: string }>(200, {
+const getTracks = () => pocketbase.collection('tracks').getFullList<TrackCollection>(200, {
   sort: '-created',
-})
+});
+
 export const Tracks = createContext<Awaited<ReturnType<typeof getTracks>>>([]);
 
 interface TracksProviderProps {
