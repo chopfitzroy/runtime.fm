@@ -2,20 +2,14 @@ import { Howl, Howler } from "howler";
 import { signal } from "@preact/signals";
 import { isAfter, parseJSON } from "date-fns";
 // import { restorePlayer } from "../utils/playerRestore.ts";
-// import { persistHistory } from "../utils/playerHistory.ts";
 // import { cacheVolume } from "../storage/playerPreferences.ts";
 import { AnyEventObject, assign, createMachine, interpret } from "xstate";
-import { Collection } from "../helpers/pocketbase";
+import type { History } from '../helpers/history';
+import { updateHistory } from '../helpers/history';
 // import {
 //   cacheAllPositionAndProgress,
 //   cacheSinglePositionAndProgress,
 // } from "../storage/playerHistory.ts";
-
-export type History = Collection<{
-  user: string;
-  track: string;
-  progress: number;
-}>;
 
 export interface Playable {
   id: string;
@@ -60,6 +54,8 @@ const getPositionAndProgress = (context: PlayerMachineContext) => {
   };
 };
 
+// TODO
+// - Delete this
 const getCurrentPlayable = (context: PlayerMachineContext) => {
   const playable = context.playables.find((item) => item.id === context.id);
 
@@ -77,12 +73,8 @@ const getCurrentPosition = (context: PlayerMachineContext) => {
     return playable.position;
   }
 
-  console.log(context.player);
-
   const progress = playable.progress;
   const duration = context.player.duration();
-
-  console.log({ duration, progress });
 
   return duration * progress;
 };
@@ -236,7 +228,7 @@ const playerMachine = createMachine<PlayerMachineContext>({
         },
         PERSIST_POSITION_AND_PROGRESS: {
           actions: [
-            (_, event) => persistHistory(event.value),
+            (_, event) => updateHistory(event.value),
             (_, event) => cacheSinglePositionAndProgress(event.value),
           ],
         },
