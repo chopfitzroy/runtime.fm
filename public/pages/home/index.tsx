@@ -12,7 +12,11 @@ export default function Home() {
 		<section>
 			<h1 className={tw`text(blue-500)`}>Home</h1>
 			<p>This is the home page.</p>
-			{tracks.map(track => <a href={`/show-notes/${track.id}`}>{track.audio}</a>)}
+			{tracks.map(track => <div>
+				<p>{track.title}</p>
+				<p><a href={track.url} target="_blank">Listen</a></p>
+				<p><a href={`/show-notes/${track.id}`}>Show notes</a></p>
+			</div>)}
 			<button style={{ width: 30 }} onClick={() => setCount(count - 1)}>
 				-
 			</button>
