@@ -1,7 +1,5 @@
 import PocketBase from 'pocketbase';
 
-export const pocketbase = new PocketBase('https://api.coffeeandcode.app');
-
 export type Collection<T> = {
   id: string;
   created: string;
@@ -9,3 +7,9 @@ export type Collection<T> = {
   collectionId: string;
   collectionName: string;
 } & T;
+
+export const pocketbase = new PocketBase('https://api.coffeeandcode.app');
+
+export const createFileUrlFromRecord = <T>(record: Collection<T>, key: keyof Collection<T>) => {
+  return `https://api.coffeeandcode.app/api/files/${record.collectionId}/${record.id}/${record[key]}`
+}

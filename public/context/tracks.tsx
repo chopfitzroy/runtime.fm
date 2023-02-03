@@ -1,6 +1,6 @@
 import { useAsset } from 'use-asset';
 import { createContext, VNode } from 'preact';
-import { Collection, pocketbase } from '../helpers/pocketbase';
+import { Collection, createFileUrlFromRecord, pocketbase } from '../helpers/pocketbase';
 
 export type TrackCollection = Collection<{
   title: string;
@@ -14,7 +14,7 @@ const getTracks = async () => {
   });
   return tracks.map(track => ({
     ...track,
-    url: `https://api.coffeeandcode.app/api/files/${track.collectionId}/${track.id}/${track.audio}`
+    url: createFileUrlFromRecord(track, 'audio')
   }));
 };
 

@@ -42,91 +42,40 @@ const createInitialContext = (
   } as PlayerMachineContext;
 };
 
-const getPositionAndProgress = (context: PlayerMachineContext) => {
+const getProgress = (context: PlayerMachineContext) => {
   const position = context.player.seek();
   const duration = context.player.duration();
   const value = (position / duration) * 100;
   const progress = Math.round(value * 100 + Number.EPSILON) / 100;
 
-  return {
-    position,
-    progress,
-  };
+  return progress;
 };
 
-// TODO
-// - Delete this
-const getCurrentPlayable = (context: PlayerMachineContext) => {
-  const playable = context.playables.find((item) => item.id === context.id);
-
-  if (playable === undefined) {
-    throw new Error("Invalid ID found in context");
-  }
-
-  return playable;
-};
-
-const getCurrentPosition = (context: PlayerMachineContext) => {
-  const playable = getCurrentPlayable(context);
-
-  if (playable.position !== null) {
-    return playable.position;
-  }
-
-  const progress = playable.progress;
+const calculatePosition = (context: PlayerMachineContext) => {
+  const progress = context.playing.progress;
   const duration = context.player.duration();
 
   return duration * progress;
 };
 
-const getPlayableById = assign<PlayerMachineContext>(
+// @TODO
+// - This needs to become a promise so it can fetch the most recently played from the API
+// - Technically this is the safest thing to do in the event the cache is out of date with the API
+const setMostRecentPlaying = assign<PlayerMachineContext>(
   {
-    id: (context, event: AnyEventObject) => {
-      const playable = context.playables.find((item) =>
-        item.id === event.value.id
-      );
-
-      if (playable === undefined) {
-        throw new Error(`No track found with ID "${event.value.id}", aborting`);
-      }
-
-      return playable.id;
-    },
-  },
-);
-
-const getLatestPlayable = assign<PlayerMachineContext>(
-  {
-    id: (context) => {
-      const [playable] = context.playables.sort((a, b) => {
+    playing: (context) => {
+      const [recent] = context.history.sort((a, b) => {
         return isAfter(parseJSON(a.updated), parseJSON(b.updated)) ? 1 : -1;
       });
 
-      if (playable === undefined) {
-        throw new Error(`Unable to find latest track, aborting`);
+      if (recent === undefined) {
+        throw new Error(`Unable to find recently played, aborting`);
       }
-
-      return playable.id;
+  
+      return recent.id;
     },
   },
 );
-
-const updateCurrentPlayable = assign<PlayerMachineContext>({
-  playables: (context, event: AnyEventObject) => {
-    const current = getCurrentPlayable(context);
-
-    const filtered = context.playables.filter((item) => item.id !== current.id);
-
-    return [
-      ...filtered,
-      {
-        ...current,
-        progress: event.value.progress,
-        position: event.value.position,
-      },
-    ];
-  },
-});
 
 // @TODO
 // - Add `populated` state
