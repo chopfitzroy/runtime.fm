@@ -15,9 +15,6 @@ const historyTable = localforage.createInstance({
   description: "Store the history",
 });
 
-// @TODO
-// - Persist track ID and progress
-// - We no longer store position
 const getCachedHistory = async () => {
   if (IS_SERVER) {
     throw new Error("Cannot use cache in server environment, aborting");
@@ -25,7 +22,7 @@ const getCachedHistory = async () => {
 
   const keys = await historyTable.keys();
 
-  const values = keys.map(async key => ({
+  const values = keys.map(async (key: string) => ({
     id: key,
     progress: historyTable.getItem(key)
   }));

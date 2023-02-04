@@ -6,6 +6,7 @@ import { isAfter, parseJSON } from "date-fns";
 import { AnyEventObject, assign, createMachine, interpret } from "xstate";
 import type { History } from '../helpers/history';
 import { updateHistory } from '../helpers/history';
+import { getTrack } from "../helpers/tracks";
 // import {
 //   cacheAllPositionAndProgress,
 //   cacheSinglePositionAndProgress,
@@ -51,31 +52,24 @@ const getProgress = (context: PlayerMachineContext) => {
   return progress;
 };
 
-const calculatePosition = (context: PlayerMachineContext) => {
+const getPosition = (context: PlayerMachineContext) => {
   const progress = context.playing.progress;
   const duration = context.player.duration();
 
   return duration * progress;
 };
 
-// @TODO
-// - This needs to become a promise so it can fetch the most recently played from the API
-// - Technically this is the safest thing to do in the event the cache is out of date with the API
-const setMostRecentPlaying = assign<PlayerMachineContext>(
-  {
-    playing: (context) => {
-      const [recent] = context.history.sort((a, b) => {
-        return isAfter(parseJSON(a.updated), parseJSON(b.updated)) ? 1 : -1;
-      });
+const getMostRecentPlaying = (context: PlayerMachineContext) => {
+  const [recent] = context.history.sort((a, b) => {
+    return isAfter(parseJSON(a.updated), parseJSON(b.updated)) ? 1 : -1;
+  });
 
-      if (recent === undefined) {
-        throw new Error(`Unable to find recently played, aborting`);
-      }
-  
-      return recent.id;
-    },
-  },
-);
+  if (recent === undefined) {
+    throw new Error(`Unable to find recently played, aborting`);
+  }
+
+  return getTrack(recent.id);
+};
 
 // @TODO
 // - Add `populated` state
@@ -241,4 +235,4 @@ const playerService = interpret(playerMachine)
   .onTransition((state) => playerSignal.value = state)
   .start();
 
-export { getCurrentPlayable, playerService, playerSignal };
+export { playerService, playerSignal };
