@@ -1,16 +1,16 @@
+import type { History } from '../helpers/history';
+
 import { Howl, Howler } from "howler";
 import { signal } from "@preact/signals";
 import { isAfter, parseJSON } from "date-fns";
-// import { restorePlayer } from "../utils/playerRestore.ts";
-// import { cacheVolume } from "../storage/playerPreferences.ts";
-import { AnyEventObject, assign, createMachine, interpret } from "xstate";
-import type { History } from '../helpers/history';
+import { assign, createMachine, interpret } from "xstate";
 import { updateHistory } from '../helpers/history';
 import { getTrack } from "../helpers/tracks";
-// import {
-//   cacheAllPositionAndProgress,
-//   cacheSinglePositionAndProgress,
-// } from "../storage/playerHistory.ts";
+
+// @TODO
+// - Restore these functions
+// import { restorePlayer } from "../utils/playerRestore.ts";
+// import { cacheVolume } from "../storage/playerPreferences.ts";
 
 export interface Playable {
   id: string;
@@ -43,7 +43,7 @@ const createInitialContext = (
   } as PlayerMachineContext;
 };
 
-const getProgress = (context: PlayerMachineContext) => {
+const calculateProgress = (context: PlayerMachineContext) => {
   const position = context.player.seek();
   const duration = context.player.duration();
   const value = (position / duration) * 100;
@@ -52,7 +52,7 @@ const getProgress = (context: PlayerMachineContext) => {
   return progress;
 };
 
-const getPosition = (context: PlayerMachineContext) => {
+const calculatePosition = (context: PlayerMachineContext) => {
   const progress = context.playing.progress;
   const duration = context.player.duration();
 
@@ -72,7 +72,8 @@ const getMostRecentPlaying = (context: PlayerMachineContext) => {
 };
 
 // @TODO
-// - Add `populated` state
+// - Add `restored` state
+// - Add `restoring` state
 // - Add entry event to `paused`
 // - Add `PLAY` listener to `populated` (will jump to `loading`)
 // - Add `PLAY` listener on `paused` (will jump straight to `playing`)
@@ -143,7 +144,7 @@ const playerMachine = createMachine<PlayerMachineContext>({
       invoke: {
         src: (context) =>
           new Promise((res) => {
-            const playable = getCurrentPlayable(context);
+            const playable = context.playing;
             const player = new Howl({
               src: [playable.url],
               html5: true,

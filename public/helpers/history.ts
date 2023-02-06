@@ -30,6 +30,17 @@ const getCachedHistory = async () => {
   return await Promise.all(values);
 };
 
+const updateCachedHistory = async (history: History[]) => {
+  if (IS_SERVER) {
+    throw new Error("Cannot use cache in server environment, aborting");
+  }
+  try {
+    await Promise.all(history.map(item => historyTable.setItem(item.id, item.progress)));
+  } catch (err) {
+    console.info(`Failed to cache position and progress, aborting`, err);
+  }
+}
+
 const getHistory = async () => {
   const model = pocketbase.authStore.model;
 
@@ -106,4 +117,4 @@ const updateHistory = async (playable: Playable) => {
   }
 };
 
-export { getHistory, updateHistory, getCachedHistory };
+export { getHistory, updateHistory, getCachedHistory, updateCachedHistory };
