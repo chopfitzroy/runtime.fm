@@ -6,11 +6,7 @@ import { isAfter, parseJSON } from "date-fns";
 import { assign, createMachine, interpret } from "xstate";
 import { updateHistory } from '../helpers/history';
 import { getTrack } from "../helpers/tracks";
-
-// @TODO
-// - Restore these functions
-// import { restorePlayer } from "../utils/playerRestore.ts";
-// import { cacheVolume } from "../storage/playerPreferences.ts";
+import { restorePlayer, updateCachedVolume } from '../helpers/restore';
 
 export interface Playable {
   id: string;
@@ -95,7 +91,7 @@ const playerMachine = createMachine<PlayerMachineContext>({
     VOLUME_SET: {
       actions: [
         assign({ volume: (_, event) => event.value }),
-        (_, event) => cacheVolume(event.value),
+        (_, event) => updateCachedVolume(event.value),
       ],
     },
     SELECT_TRACK_INFO: {
