@@ -1,4 +1,4 @@
-import type { History } from '../helpers/history';
+import { History, updateCachedHistory } from '../helpers/history';
 
 import { Howl, Howler } from "howler";
 import { signal } from "@preact/signals";
@@ -55,7 +55,7 @@ const calculatePosition = (context: PlayerMachineContext) => {
   return duration * progress;
 };
 
-const getMostRecentPlaying = (context: PlayerMachineContext) => {
+const getMostRecentPlaying = async (context: PlayerMachineContext) => {
   const [recent] = context.history.sort((a, b) => {
     return isAfter(parseJSON(a.updated), parseJSON(b.updated)) ? 1 : -1;
   });
@@ -64,7 +64,13 @@ const getMostRecentPlaying = (context: PlayerMachineContext) => {
     throw new Error(`Unable to find recently played, aborting`);
   }
 
-  return getTrack(recent.id);
+  const track = await getTrack(recent.id);
+
+  return {
+    id: recent.id,
+    url: track.url,
+    progress: recent.progress
+  }
 };
 
 // @TODO
@@ -78,16 +84,6 @@ const playerMachine = createMachine<PlayerMachineContext>({
   context: createInitialContext(),
   initial: initialState,
   on: {
-    PLAY: {
-      target: "loading",
-    },
-    SEEK: {
-      // @TODO
-      // - This probably looks different for `paused` and `playing`
-      actions: [
-        updateCurrentPlayable,
-      ],
-    },
     VOLUME_SET: {
       actions: [
         assign({ volume: (_, event) => event.value }),
@@ -98,33 +94,46 @@ const playerMachine = createMachine<PlayerMachineContext>({
       target: "loading",
       actions: [
         assign((context) => createInitialContext(context)),
-        getPlayableById,
+        assign({ playing: (_, event) => event.data })
       ],
     },
   },
   states: {
     // @NOTE
-    // - Unfortunately it's impossible to dynamically get the progress here
-    // - This is because we can't read the duration of the audio file on page load
+    // - We can't read the duration of the audio file on page load
+    // - As a result we do all sorts of things to give the illusion
+    // - Of loading whichever track the user was listening to previously
     // - https://github.com/goldfire/howler.js/issues/1154
-    // - To get around this we persist the progress as well as the duration
-    populating: {
+    restoring: {
       invoke: {
         src: restorePlayer,
         onDone: {
-          target: "paused",
+          target: "populating",
           actions: [
             assign({ volume: (_, event) => event.data.volume }),
-            assign({ playables: (_, event) => event.data.playables }),
-            getLatestPlayable,
-            (_, event) => cacheVolume(event.data.volume),
-            (_, event) => cacheAllPositionAndProgress(event.data.playables),
+            assign({ history: (_, event) => event.data.history }),
+            (_, event) => updateCachedVolume(event.data.volume),
+            (_, event) => updateCachedHistory(event.data.history),
           ],
         },
         onError: {
           target: "failed",
         },
       },
+    },
+    populating: {
+      invoke: {
+        src: getMostRecentPlaying,
+        onDone: {
+          target: "paused",
+          actions: [
+            assign({ playing: (_, event) => event.data })
+          ]
+        },
+        onError: {
+          target: "stopped"
+        }
+      }
     },
     failed: {
       type: "final",
