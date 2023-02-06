@@ -11,7 +11,8 @@ import { restorePlayer, updateCachedVolume } from '../helpers/restore';
 export interface Playable {
   id: string;
   url: string;
-  progress: number;
+  progress?: number;
+  position?: number;
 }
 
 interface PlayerMachineContext {
@@ -21,7 +22,7 @@ interface PlayerMachineContext {
   history: History[];
 }
 
-const initialState = "populating";
+const initialState = "restoring";
 const persistInterval = 5; // In seconds
 const contextInterval = 1; // In seconds
 
@@ -49,11 +50,12 @@ const calculateProgress = (context: PlayerMachineContext) => {
 };
 
 const calculatePosition = (context: PlayerMachineContext) => {
-  const progress = context.playing.progress;
+  const progress = context.playing.progress || 0;
   const duration = context.player.duration();
 
   return duration * progress;
 };
+
 
 const getMostRecentPlaying = async (context: PlayerMachineContext) => {
   const [recent] = context.history.sort((a, b) => {
@@ -69,16 +71,10 @@ const getMostRecentPlaying = async (context: PlayerMachineContext) => {
   return {
     id: recent.id,
     url: track.url,
-    progress: recent.progress
+    progress: recent.progress,
   }
 };
 
-// @TODO
-// - Add `restored` state
-// - Add `restoring` state
-// - Add entry event to `paused`
-// - Add `PLAY` listener to `populated` (will jump to `loading`)
-// - Add `PLAY` listener on `paused` (will jump straight to `playing`)
 const playerMachine = createMachine<PlayerMachineContext>({
   predictableActionArguments: true,
   context: createInitialContext(),
@@ -143,20 +139,27 @@ const playerMachine = createMachine<PlayerMachineContext>({
     paused: {
       // @TODO
       // - Move relevant events here
+      entry: [
+        (context) => context.player.pause(),
+      ]
     },
     loading: {
       entry: () => Howler.unload(),
       invoke: {
         src: (context) =>
           new Promise((res) => {
-            const playable = context.playing;
             const player = new Howl({
-              src: [playable.url],
+              src: [context.playing.url],
               html5: true,
               volume: context.volume,
             });
 
-            player.on("load", () => res(player));
+            // @TODO
+            // Setup events for `end` and `error`
+            player.on("load", () => {
+              player.seek(calculatePosition(context));
+              return res(player);
+            });
           }),
         onDone: {
           target: "playing",
@@ -173,36 +176,37 @@ const playerMachine = createMachine<PlayerMachineContext>({
           target: "paused",
         },
         UPDATE_CONTEXT: {
-          actions: updateCurrentPlayable,
+          actions: assign({
+            playing: (context, event) => {
+              return {
+                ...context.playing,
+                ...event.data
+              };
+            }
+          })
         },
-        PERSIST_POSITION_AND_PROGRESS: {
+        PERSIST_PROGRESS: {
           actions: [
             (_, event) => updateHistory(event.value),
-            (_, event) => cacheSinglePositionAndProgress(event.value),
+            (_, event) => updateCachedHistory([event.value]),
           ],
         },
         VOLUME_SET: {
           actions: [
             assign({ volume: (_, event) => event.value }),
+            (_, event) => updateCachedVolume(event.value),
             (context, event) => context.player.volume(event.value),
-            (_, event) => cacheVolume(event.value),
           ],
         },
       },
-      exit: [
-        // @NOTE
-        // - Unfortunately this needs to be done here
-        // - This is to get around audio context issues on page load
-        (context) => context.player.pause(),
-      ],
       entry: [
-        (context) => context.player.seek(getCurrentPosition(context)),
         (context) => context.player.play(),
       ],
       invoke: {
         src: (context) => (send) => {
           const contextTimer = setInterval(() => {
-            const { position, progress } = getPositionAndProgress(context);
+            const position = context.player.seek();
+            const progress = calculateProgress(context);
 
             send({
               type: "UPDATE_CONTEXT",
@@ -214,13 +218,12 @@ const playerMachine = createMachine<PlayerMachineContext>({
           }, 1000 * contextInterval);
 
           const persistTimer = setInterval(() => {
-            const { position, progress } = getPositionAndProgress(context);
+            const progress = calculateProgress(context);
             send({
-              type: "PERSIST_POSITION_AND_PROGRESS",
+              type: "PERSIST_PROGRESS",
               value: {
-                id: context.id,
+                id: context.playing.id,
                 progress,
-                position,
               },
             });
           }, 1000 * persistInterval);
