@@ -32,7 +32,8 @@ const getCachedHistory = async () => {
 
 const updateCachedHistory = async (history: History[]) => {
   if (IS_SERVER) {
-    throw new Error("Cannot use cache in server environment, aborting");
+    console.log("Cannot use cache in server environment, aborting");
+    return;
   }
   try {
     await Promise.all(history.map(item => historyTable.setItem(item.id, item.progress)));

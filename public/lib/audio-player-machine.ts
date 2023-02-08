@@ -1,12 +1,28 @@
-import { History, updateCachedHistory } from '../helpers/history';
+import type { Howl, Howler } from 'howler';
+import type { History } from '../helpers/history';
 
-import { Howl, Howler } from "howler";
+// @NOTE
+// - Currently howler does not provide an ESM export
+// - As a result we import directly and use the instance it attaches to the window
+// - In the future we can look at importing from esm.sh but there are currently pre-render issues with this approach
+import 'howler';
+
 import { signal } from "@preact/signals";
 import { isAfter, parseJSON } from "date-fns";
-import { assign, createMachine, interpret } from "xstate";
-import { updateHistory } from '../helpers/history';
 import { getTrack } from "../helpers/tracks";
+import { updateHistory } from '../helpers/history';
+import { assign, createMachine, interpret } from "xstate";
+import { updateCachedHistory } from '../helpers/history';
 import { restorePlayer, updateCachedVolume } from '../helpers/restore';
+
+// @NOTE
+// - Make window type definitions play nice
+declare global {
+  interface Window {
+    Howl: typeof Howl;
+    Howler: typeof Howler
+  }
+}
 
 export interface Playable {
   id: string;
@@ -86,11 +102,11 @@ const playerMachine = createMachine<PlayerMachineContext>({
         (_, event) => updateCachedVolume(event.value),
       ],
     },
-    SELECT_TRACK_INFO: {
+    SELECT_TRACK: {
       target: "loading",
       actions: [
         assign((context) => createInitialContext(context)),
-        assign({ playing: (_, event) => event.data })
+        assign({ playing: (_, event) => event.value })
       ],
     },
   },
@@ -121,7 +137,7 @@ const playerMachine = createMachine<PlayerMachineContext>({
       invoke: {
         src: getMostRecentPlaying,
         onDone: {
-          target: "paused",
+          target: "waiting",
           actions: [
             assign({ playing: (_, event) => event.data })
           ]
@@ -136,6 +152,8 @@ const playerMachine = createMachine<PlayerMachineContext>({
       // @TODO
       // - Tell the user to refresh the page
     },
+    waiting: {},
+    stopped: {},
     paused: {
       // @TODO
       // - Move relevant events here
@@ -144,11 +162,11 @@ const playerMachine = createMachine<PlayerMachineContext>({
       ]
     },
     loading: {
-      entry: () => Howler.unload(),
+      // entry: () => window.Howler.unload(),
       invoke: {
         src: (context) =>
           new Promise((res) => {
-            const player = new Howl({
+            const player = new window.Howl({
               src: [context.playing.url],
               html5: true,
               volume: context.volume,
@@ -157,6 +175,7 @@ const playerMachine = createMachine<PlayerMachineContext>({
             // @TODO
             // Setup events for `end` and `error`
             player.on("load", () => {
+              console.log('Load event', player);
               player.seek(calculatePosition(context));
               return res(player);
             });
@@ -167,6 +186,7 @@ const playerMachine = createMachine<PlayerMachineContext>({
         },
         onError: {
           target: "failed",
+          actions: (_, event) => console.log(event)
         },
       },
     },

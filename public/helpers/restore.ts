@@ -19,7 +19,8 @@ const getCachedVolume = () => {
 
 const updateCachedVolume = async (volume: number) => {
 	if (IS_SERVER) {
-		throw new Error("Cannot use cache in server environment, aborting");
+		console.log("Cannot use cache in server environment, aborting");
+		return;
 	}
 
 	try {

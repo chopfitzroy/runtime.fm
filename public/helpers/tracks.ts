@@ -1,3 +1,4 @@
+import { playerService } from '../lib/audio-player-machine';
 import { Collection, createFileUrlFromRecord, pocketbase } from './pocketbase'
 
 export type TrackCollection = Collection<{
@@ -19,8 +20,15 @@ export const getTracks = async () => {
   const tracks = await pocketbase.collection('tracks').getFullList<TrackCollection>(200, {
     sort: '-created',
   });
-  return tracks.map(track => ({
-    ...track,
-    url: createFileUrlFromRecord(track, 'audio')
-  }));
+  return tracks.map(track => {
+    const url = createFileUrlFromRecord(track, 'audio');
+    return {
+      ...track,
+      url,
+      select: (e: MouseEvent) => {
+        e.preventDefault();
+        playerService.send({ type: 'SELECT_TRACK', value: { id: track.id, url } })
+      }
+    }
+  });
 };
