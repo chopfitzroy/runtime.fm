@@ -120,7 +120,7 @@ const playerMachine = createMachine<PlayerMachineContext>({
       invoke: {
         src: restorePlayer,
         onDone: {
-          target: "populating",
+          target: "resuming",
           actions: [
             assign({ volume: (_, event) => event.data.volume }),
             assign({ history: (_, event) => event.data.history }),
@@ -130,20 +130,22 @@ const playerMachine = createMachine<PlayerMachineContext>({
         },
         onError: {
           target: "failed",
+          actions: (_, event) => console.warn(`Error in 'restoring' state`, event)
         },
       },
     },
-    populating: {
+    resuming: {
       invoke: {
         src: getMostRecentPlaying,
         onDone: {
-          target: "waiting",
+          target: "resumed",
           actions: [
             assign({ playing: (_, event) => event.data })
           ]
         },
         onError: {
-          target: "stopped"
+          target: "stopped",
+          actions: (_, event) => console.warn(`Error in 'resuming' state`, event)
         }
       }
     },
@@ -152,7 +154,7 @@ const playerMachine = createMachine<PlayerMachineContext>({
       // @TODO
       // - Tell the user to refresh the page
     },
-    waiting: {},
+    resumed: {},
     stopped: {},
     paused: {
       // @TODO
@@ -175,18 +177,21 @@ const playerMachine = createMachine<PlayerMachineContext>({
             // @TODO
             // Setup events for `end` and `error`
             player.on("load", () => {
-              console.log('Load event', player);
-              player.seek(calculatePosition(context));
               return res(player);
             });
           }),
         onDone: {
           target: "playing",
-          actions: assign({ player: (_, event) => event.data }),
+          actions: [
+            assign({ player: (_, event) => event.data }),
+            // @NOTE
+            // - Have to do this here once context is set
+            (context) => context.player.seek(calculatePosition(context))
+          ]
         },
         onError: {
           target: "failed",
-          actions: (_, event) => console.log(event)
+          actions: (_, event) => console.warn(`Error in 'loading' state`, event)
         },
       },
     },

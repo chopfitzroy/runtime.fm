@@ -1,6 +1,7 @@
 import localforage from "localforage";
 import { IS_SERVER } from "./environment";
 import { getCachedHistory, getHistory } from "./history";
+import { empty } from "./misc";
 import { trap } from "./trap";
 
 const restoreTable = localforage.createInstance({
@@ -36,13 +37,13 @@ const restoreHistory = async () => {
 
 	const [realHistory] = await getHistorySafe();
 
-	if (realHistory !== undefined) {
+	if (!empty(realHistory)) {
 		return realHistory;
 	}
 
 	const [cachedHistory] = await getCachedHistorySafe();
 
-	if (cachedHistory !== undefined) {
+	if (!empty(cachedHistory)) {
 		return cachedHistory;
 	}
 
@@ -54,7 +55,7 @@ const restoreVolume = async () => {
 
 	const [cachedVolume] = await getCachedVolumeSafe();
 
-	if (cachedVolume !== undefined) {
+	if (!empty(cachedVolume)) {
 		return cachedVolume;
 	}
 	
