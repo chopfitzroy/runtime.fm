@@ -40,3 +40,14 @@ Unfortunately because we are using `preact/compat` we are [required](https://git
 
 - Use [Zod](https://zod.dev/) to validate data before sending to Pocketbase.
 - Use [Stork](https://stork-search.net/) to create pre-compiled search index.
+- Use [Ranger](https://github.com/TanStack/ranger) to handle volume/progress sliders.
+- Would love to use [Radix UI](https://www.radix-ui.com/) but does not work pending [this issue](https://github.com/preactjs/preact/issues/3666).
+
+**Note**: If Radix is added remember to add the following to your `tsconfig.json` under `compilerOptions`: 
+
+```json
+"paths": {
+  "react": ["./node_modules/preact/compat/"],
+  "react-dom": ["./node_modules/preact/compat/"]
+}
+```

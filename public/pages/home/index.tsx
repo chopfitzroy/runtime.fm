@@ -1,7 +1,8 @@
 import { tw } from 'twind';
 
-import { useContext, useState } from 'preact/hooks';
+import { useContext } from 'preact/hooks';
 import { Tracks } from '../../context/tracks';
+import { PlayerControls } from '../../components/player/controls';
 
 export default function Home() {
 	const tracks = useContext(Tracks);
@@ -15,6 +16,7 @@ export default function Home() {
 				<p><a href={track.url} target="_blank" onClick={track.select}>Listen</a></p>
 				<p><a href={`/show-notes/${track.id}`}>Show notes</a></p>
 			</div>)}
+			<PlayerControls />
 		</section>
 	);
 }

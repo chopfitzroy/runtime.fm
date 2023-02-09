@@ -169,15 +169,14 @@ const playerMachine = createMachine<PlayerMachineContext>({
       // @TODO
       // - Tell the user to refresh the page
     },
-    resumed: {},
-    stopped: {},
-    paused: {
-      // @TODO
-      // - Move relevant events here
-      entry: [
-        (context) => context.player.pause(),
-      ]
+    resumed: {
+      on: {
+        PLAY: {
+          target: "loading"
+        }
+      }
     },
+    stopped: {},
     loading: {
       entry: () => window.Howler.unload(),
       invoke: {
@@ -209,6 +208,18 @@ const playerMachine = createMachine<PlayerMachineContext>({
           actions: (_, event) => console.warn(`Error in 'loading' state`, event)
         },
       },
+    },
+    paused: {
+      // @TODO
+      // - Move relevant events here
+      entry: [
+        (context) => context.player.pause(),
+      ],
+      on: {
+        PLAY: {
+          target: "playing"
+        }
+      }
     },
     playing: {
       on: {
