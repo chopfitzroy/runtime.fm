@@ -11,7 +11,7 @@ interface SliderProps {
 const trackColors = css({
   '&:first-child': {
     marginRight: '1px',
-    backgroundColor: theme('colors.black')
+    backgroundColor: theme('colors.yellow.400')
   },
 })
 
@@ -21,7 +21,7 @@ const Slider = ({ min, max, value, onChange }: SliderProps) => {
     max={max}
     value={value}
     onChange={onChange}
-    className={tw('h-2 rounded bg(gray.200)')}
+    className={tw('h-2 rounded bg(gray.700)')}
     trackClassName={tw('h-2', trackColors)}
     thumbClassName={tw('h-5 w-5 focus:outline(none) bg(white) border border(2 black) rounded(full) -translate-y-1.5')}
   />

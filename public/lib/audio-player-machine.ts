@@ -145,7 +145,7 @@ const playerMachine = createMachine<PlayerMachineContext>({
         },
         onError: {
           target: "failed",
-          actions: (_, event) => console.warn(`Error in 'restoring' state`, event)
+          actions: () => console.warn(`Error in 'restoring' state`)
         },
       },
     },
@@ -160,7 +160,7 @@ const playerMachine = createMachine<PlayerMachineContext>({
         },
         onError: {
           target: "stopped",
-          actions: (_, event) => console.warn(`Error in 'resuming' state`, event)
+          actions: () => console.warn(`Error in 'resuming' state`)
         }
       }
     },
@@ -205,7 +205,7 @@ const playerMachine = createMachine<PlayerMachineContext>({
         },
         onError: {
           target: "failed",
-          actions: (_, event) => console.warn(`Error in 'loading' state`, event)
+          actions: () => console.warn(`Error in 'loading' state`)
         },
       },
     },

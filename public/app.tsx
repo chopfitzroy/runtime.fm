@@ -1,5 +1,3 @@
-import Header from './components/header';
-
 import { Routes } from './routes';
 import { TracksProvider } from './context/tracks';
 import { LocationProvider, ErrorBoundary } from 'preact-iso';
@@ -9,7 +7,6 @@ export function App() {
 	return (
 		<LocationProvider>
 			<div>
-				<Header />
 				<ErrorBoundary>
 					<TracksProvider>
 						<ErrorInterface>
