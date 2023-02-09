@@ -68,10 +68,24 @@ const calculateProgress = (context: PlayerMachineContext) => {
 const calculatePosition = (context: PlayerMachineContext) => {
   const progress = context.playing.progress || 0;
   const duration = context.player.duration();
+  const percentage = progress / 100;
 
-  return duration * progress;
+  return duration * percentage;
 };
 
+const getSelectedProgress = (context: PlayerMachineContext) => {
+  const playing = context.playing;
+  const match = context.history.find(item => item.id === playing.id);
+
+  if (match === undefined) {
+    return playing;
+  }
+
+  return {
+    ...playing,
+    progress: match.progress
+  }
+}
 
 const getMostRecentPlaying = async (context: PlayerMachineContext) => {
   const [recent] = context.history.sort((a, b) => {
@@ -106,7 +120,8 @@ const playerMachine = createMachine<PlayerMachineContext>({
       target: "loading",
       actions: [
         assign((context) => createInitialContext(context)),
-        assign({ playing: (_, event) => event.value })
+        assign({ playing: (_, event) => event.value }),
+        assign({ playing: (context) => getSelectedProgress(context) })
       ],
     },
   },
@@ -164,7 +179,7 @@ const playerMachine = createMachine<PlayerMachineContext>({
       ]
     },
     loading: {
-      // entry: () => window.Howler.unload(),
+      entry: () => window.Howler.unload(),
       invoke: {
         src: (context) =>
           new Promise((res) => {

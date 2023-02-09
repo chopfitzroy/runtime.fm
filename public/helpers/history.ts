@@ -24,7 +24,7 @@ const getCachedHistory = async () => {
 
   const values = keys.map(async (key: string) => ({
     id: key,
-    progress: historyTable.getItem(key)
+    progress: await historyTable.getItem(key)
   }));
 
   return await Promise.all(values);
