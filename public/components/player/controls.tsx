@@ -3,8 +3,7 @@ import { Slider } from "../core/slider";
 
 const visibleStates = ['paused', 'playing', 'resumed'];
 
-const updateVolume = (event: unknown) => {
-  const value = event.target.value as number;
+const updateVolume = (value: number) => {
   const volume = value / 100;
   playerService.send({
     type: 'VOLUME_SET',
@@ -24,7 +23,7 @@ const PlayerControls = () => {
       <p>{playerSignal.value.value}</p>
       <button onClick={() => playerService.send('PLAY')}>Play</button>
       <button onClick={() => playerService.send('PAUSE')}>Pause</button>
-			<Slider min={0} max={100} value={volume} onInput={updateVolume} />
+			<Slider min={0} max={100} value={volume} onChange={updateVolume} />
     </div>
   );
 };
