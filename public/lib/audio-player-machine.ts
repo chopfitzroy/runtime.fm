@@ -34,6 +34,7 @@ export interface Playable {
 interface PlayerMachineContext {
   player: Howl;
   volume: number;
+  reason: string;
   playing: Playable;
   history: History[];
 }
@@ -105,6 +106,9 @@ const getMostRecentPlaying = async (context: PlayerMachineContext) => {
   }
 };
 
+// @TODO
+// - Events to add
+// - SEEK
 const playerMachine = createMachine<PlayerMachineContext>({
   predictableActionArguments: true,
   context: createInitialContext(),
@@ -115,6 +119,20 @@ const playerMachine = createMachine<PlayerMachineContext>({
         assign({ volume: (_, event) => event.value }),
         (_, event) => updateCachedVolume(event.value),
       ],
+    },
+    LOAD_ERROR: {
+      target: "failed",
+      actions: [
+        assign({ reason: (_) => 'Something went wrong while loading the Podcast' }),
+        (_, event) => console.warn('Error loading audio', event.value)
+      ]
+    },
+    PLAY_ERROR: {
+      target: "failed",
+      actions: [
+        assign({ reason: (_) => 'Something went wrong while playing the Podcast' }),
+        (_, event) => console.warn('Error playing audio', event.value)
+      ]
     },
     SELECT_TRACK: {
       target: "loading",
@@ -176,11 +194,13 @@ const playerMachine = createMachine<PlayerMachineContext>({
         }
       }
     },
-    stopped: {},
+    stopped: {
+      entry: () => window.Howler.unload(),
+    },
     loading: {
       entry: () => window.Howler.unload(),
       invoke: {
-        src: (context) =>
+        src: (context) => (send) =>
           new Promise((res) => {
             const player = new window.Howl({
               src: [context.playing.url],
@@ -188,8 +208,18 @@ const playerMachine = createMachine<PlayerMachineContext>({
               volume: context.volume,
             });
 
-            // @TODO
-            // Setup events for `end` and `error`
+            player.on("end", (id) => {
+              send({ type: 'END', value: id });
+            });
+
+            player.on("loaderror", (_, err) => {
+              send({ type: 'LOAD_ERROR', value: err })
+            });
+
+            player.on("playerror", (_, err) => {
+              send({ type: 'PLAY_ERROR', value: err })
+            });
+
             player.on("load", () => {
               return res(player);
             });
@@ -210,8 +240,6 @@ const playerMachine = createMachine<PlayerMachineContext>({
       },
     },
     paused: {
-      // @TODO
-      // - Move relevant events here
       entry: [
         (context) => context.player.pause(),
       ],
@@ -223,6 +251,12 @@ const playerMachine = createMachine<PlayerMachineContext>({
     },
     playing: {
       on: {
+        END: {
+          // @TODO
+          // - Update progress to 0
+          // - Add a finished flag
+          target: "stopped"
+        },
         PAUSE: {
           target: "paused",
         },
