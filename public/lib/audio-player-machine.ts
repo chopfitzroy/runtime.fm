@@ -231,7 +231,7 @@ const playerMachine = createMachine<PlayerMachineContext>({
             playing: (context, event) => {
               return {
                 ...context.playing,
-                ...event.data
+                ...event.value
               };
             }
           })
