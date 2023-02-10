@@ -8,6 +8,14 @@ import { Volume } from "../icons/volume";
 
 const visibleStates = ['paused', 'playing', 'resumed', 'loading'];
 
+const seek = (progress: number) => {
+  playerService.send({
+    type: 'SEEK',
+    value: progress
+  });
+}
+
+
 const updateVolume = (value: number) => {
   const volume = value / 100;
   playerService.send({
@@ -40,7 +48,7 @@ const PlayerControls = () => {
         <Volume />
       </button>
       {volumeVisible && <VerticalSlider min={0} max={100} value={volume} onChange={updateVolume} className={tw('h-24')} />}
-      <HorizontalSlider min={0} max={100} value={progress} />
+      <HorizontalSlider min={0} max={100} value={progress} onChange={seek} />
     </div>
   );
 };

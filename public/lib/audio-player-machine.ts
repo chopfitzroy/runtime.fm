@@ -11,7 +11,7 @@ import { signal } from "@preact/signals";
 import { isAfter, parseJSON } from "date-fns";
 import { getTrack } from "../helpers/tracks";
 import { updateHistory } from '../helpers/history';
-import { assign, createMachine, interpret } from "xstate";
+import { AnyEventObject, assign, createMachine, interpret } from "xstate";
 import { updateCachedHistory } from '../helpers/history';
 import { restorePlayer, updateCachedVolume } from '../helpers/restore';
 
@@ -56,6 +56,13 @@ const createInitialContext = (
     history,
   } as PlayerMachineContext;
 };
+
+const updateProgress = (context: PlayerMachineContext, event: AnyEventObject) => {
+  return {
+    ...context.playing,
+    progress: event.value
+  }
+}
 
 const calculateProgress = (context: PlayerMachineContext) => {
   const position = context.player.seek();
@@ -106,9 +113,6 @@ const getMostRecentPlaying = async (context: PlayerMachineContext) => {
   }
 };
 
-// @TODO
-// - Events to add
-// - SEEK
 const playerMachine = createMachine<PlayerMachineContext>({
   predictableActionArguments: true,
   context: createInitialContext(),
@@ -191,7 +195,13 @@ const playerMachine = createMachine<PlayerMachineContext>({
       on: {
         PLAY: {
           target: "loading"
-        }
+        },
+        SEEK: {
+          target: "loading",
+          actions: [
+            assign({ playing: (context, event) => updateProgress(context, event) })
+          ]
+        },
       }
     },
     stopped: {
@@ -246,7 +256,14 @@ const playerMachine = createMachine<PlayerMachineContext>({
       on: {
         PLAY: {
           target: "playing"
-        }
+        },
+        SEEK: {
+          target: "playing",
+          actions: [
+            assign({ playing: (context, event) => updateProgress(context, event) }),
+            (context) => context.player.seek(calculatePosition(context))
+          ]
+        },
       }
     },
     playing: {
@@ -256,6 +273,12 @@ const playerMachine = createMachine<PlayerMachineContext>({
           // - Update progress to 0
           // - Add a finished flag
           target: "stopped"
+        },
+        SEEK: {
+          actions: [
+            assign({ playing: (context, event) => updateProgress(context, event) }),
+            (context) => context.player.seek(calculatePosition(context))
+          ]
         },
         PAUSE: {
           target: "paused",
