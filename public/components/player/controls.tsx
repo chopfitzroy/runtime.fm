@@ -25,7 +25,7 @@ const updateVolume = (value: number) => {
 }
 
 const PlayerControls = () => {
-  const [volumeVisible, setVolumeVisible] = useState(false);  
+  const [volumeVisible, setVolumeVisible] = useState(false);
 
   if (!visibleStates.includes(playerSignal.value.value as string)) {
     return null;
@@ -38,16 +38,26 @@ const PlayerControls = () => {
 
   return (
     <div className={tw('absolute inset(x-0) bottom-0 p-4')}>
-      <button onClick={() => playerService.send('PLAY')}>
-        <PlayCircle />
-      </button>
-      <button onClick={() => playerService.send('PAUSE')}>
-        <PauseCircle />
-      </button>
-      <button onClick={toggleVolumeVisible}>
-        <Volume />
-      </button>
-      {volumeVisible && <VerticalSlider min={0} max={100} value={volume} onChange={updateVolume} className={tw('h-24')} />}
+      <div className={tw('flex')}>
+        <div className={tw('flex(grow)')}>
+          <button onClick={() => playerService.send('PLAY')} className={tw('focus:border(none) focus:outline(none)')}>
+            <PlayCircle />
+          </button>
+          <button onClick={() => playerService.send('PAUSE')} className={tw('focus:border(none) focus:outline(none)')}>
+            <PauseCircle />
+          </button>
+        </div>
+        <div className={tw('relative')}>
+          <button onClick={toggleVolumeVisible} className={tw('focus:border(none) focus:outline(none)')}>
+            <Volume />
+          </button>
+          {volumeVisible && (
+            <div className={tw('absolute -left-0.5  bottom-8 p-2 rounded bg-[#0d1116]')}>
+              <VerticalSlider min={0} max={100} value={volume} onChange={updateVolume} className={tw('h-24')} />
+            </div>
+          )}
+        </div>
+      </div>
       <HorizontalSlider min={0} max={100} value={progress} onChange={seek} />
     </div>
   );

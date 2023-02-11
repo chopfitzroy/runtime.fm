@@ -187,9 +187,7 @@ const playerMachine = createMachine<PlayerMachineContext>({
       }
     },
     failed: {
-      type: "final",
-      // @TODO
-      // - Tell the user to refresh the page
+      entry: () => window.Howler.unload(),
     },
     resumed: {
       on: {

@@ -11,7 +11,6 @@ interface SliderProps {
 
 const trackColors = css({
   '&:first-child': {
-    marginRight: '1px',
     backgroundColor: theme('colors.yellow.400'),
   },
 })
