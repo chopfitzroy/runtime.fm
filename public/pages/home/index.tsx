@@ -12,21 +12,30 @@ export default function Home() {
 
 	const showWarning = playerSignal.value.value === 'failed';
 	const errorMessage = playerSignal.value.context.reason;
-	
+
 	return (
 		<section className={tw('flex w-screen h-screen')}>
-			<div className={tw('w-full max-w-sm p-4 bg-[#161b22]')}>
+			<div className={tw('w-full max-w-sm p-4 bg-[#161b22] border-r(1 gray.700)')}>
 				<img src={logo} className={tw('w-full')} />
 				<h1 className={tw`text(white)`}>Runtime FM</h1>
 				<p className={tw`text(white)`}>This will be where the podcast details are.</p>
 			</div>
-			<div className={tw('relative flex(grow) p-4 bg-[#0d1116]')}>
+			<div className={tw('relative flex(grow) pt-4 bg-[#0d1116]')}>
 				{showWarning && <Warning message={errorMessage} />}
-				{tracks.map(track => <div>
-					<p className={tw`text(white)`}>{track.title}</p>
-					<p className={tw`text(yellow.400)`}><a href={track.url} target="_blank" onClick={track.select}>Listen</a></p>
-					<p className={tw`text(white)`}><a href={`/show-notes/${track.id}`}>Show notes</a></p>
-				</div>)}
+				{tracks.map(track => (
+					<div className={tw('border-b(1 gray.700)')}>
+						<div className={tw('p-4')}>
+							<p className={tw('text-gray-400 text-sm')}>{track.created}</p>
+							<p className={tw('text(white) text-lg font-bold my-1')}>{track.title}</p>
+							<p className={tw('text(white)')}>{track.description}</p>
+							<div className={tw('flex items-center my-4')}>
+								<a href={track.url} target="_blank" onClick={track.select} className={tw('text(yellow.400) text-sm font-bold')}>Listen</a>
+								<span className={tw('inline-block mx-2 text-gray-400')}>&#47;</span>
+								<a href={`/show-notes/${track.id}`} className={tw('text(yellow.400) text-sm font-bold')}>Show notes</a>
+							</div>
+						</div>
+					</div>
+				))}
 				<PlayerControls />
 			</div>
 		</section>

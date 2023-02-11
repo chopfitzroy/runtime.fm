@@ -1,5 +1,6 @@
-import { useState } from "preact/hooks";
+import { useContext, useState } from "preact/hooks";
 import { tw } from "twind";
+import { Tracks } from "../../context/tracks";
 import { playerService, playerSignal } from "../../lib/audio-player-machine";
 import { HorizontalSlider, VerticalSlider } from "../core/slider";
 import { PauseCircle } from "../icons/pause-circle";
@@ -25,6 +26,8 @@ const updateVolume = (value: number) => {
 }
 
 const PlayerControls = () => {
+	const tracks = useContext(Tracks);
+
   const [volumeVisible, setVolumeVisible] = useState(false);
 
   if (!visibleStates.includes(playerSignal.value.value as string)) {
@@ -34,18 +37,25 @@ const PlayerControls = () => {
   const toggleVolumeVisible = () => setVolumeVisible(current => !current);
 
   const volume = playerSignal.value.context.volume * 100;
+  const playing = tracks.find(track => track.id === playerSignal.value.context.playing.id);
   const progress = playerSignal.value.context.playing.progress ?? 0;
 
+
   return (
-    <div className={tw('absolute inset(x-0) bottom-0 p-4')}>
-      <div className={tw('flex')}>
-        <div className={tw('flex(grow)')}>
+    <div className={tw('absolute inset(x-0) bottom-0 p-4 bg-[#161b22] border-t(1 gray.700)')}>
+      <div className={tw('flex mb-4')}>
+        <div>
           <button onClick={() => playerService.send('PLAY')} className={tw('focus:border(none) focus:outline(none)')}>
             <PlayCircle />
           </button>
           <button onClick={() => playerService.send('PAUSE')} className={tw('focus:border(none) focus:outline(none)')}>
             <PauseCircle />
           </button>
+        </div>
+        <div className={tw('flex flex(grow) items-center justify-center')}>
+          {playing && (
+            <p className={tw('text-white')}>{playing.title}</p>
+          )}
         </div>
         <div className={tw('relative')}>
           <button onClick={toggleVolumeVisible} className={tw('focus:border(none) focus:outline(none)')}>
