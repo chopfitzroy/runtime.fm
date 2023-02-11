@@ -24,13 +24,13 @@ const getCachedHistory = async () => {
 
   const values = keys.map(async (key: string) => ({
     id: key,
-    progress: await historyTable.getItem(key)
+    progress: await historyTable.getItem(key) as number
   }));
 
   return await Promise.all(values);
 };
 
-const updateCachedHistory = async (history: History[]) => {
+const updateCachedHistory = async (history: Pick<History, 'id' | 'progress'>[]) => {
   if (IS_SERVER) {
     console.log("Cannot use cache in server environment, aborting");
     return;

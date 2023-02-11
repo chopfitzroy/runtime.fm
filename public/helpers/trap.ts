@@ -1,7 +1,7 @@
 const trap =
   <T extends (...args: any[]) => Promise<any>>(handler: T) =>
   async (...args: Parameters<T>): Promise<
-    [ReturnType<Awaited<T>>, undefined] | [undefined, unknown]
+    [Awaited<ReturnType<T>>, undefined] | [undefined, unknown]
   > => {
     try {
       const result = await handler(...args);

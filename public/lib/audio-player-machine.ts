@@ -14,6 +14,7 @@ import { updateHistory } from '../helpers/history';
 import { AnyEventObject, assign, createMachine, interpret } from "xstate";
 import { updateCachedHistory } from '../helpers/history';
 import { restorePlayer, updateCachedVolume } from '../helpers/restore';
+import { checkFinished } from '../helpers/misc';
 
 // @NOTE
 // - Make window type definitions play nice
@@ -57,6 +58,7 @@ const createInitialContext = (
   } as PlayerMachineContext;
 };
 
+
 const updateProgress = (context: PlayerMachineContext, event: AnyEventObject) => {
   return {
     ...context.playing,
@@ -78,6 +80,12 @@ const calculatePosition = (context: PlayerMachineContext) => {
   const duration = context.player.duration();
   const percentage = progress / 100;
 
+  // @NOTE
+  // - Restart if they have completed
+  if (checkFinished(progress)) {
+    return 0;
+  }
+
   return duration * percentage;
 };
 
@@ -97,11 +105,18 @@ const getSelectedProgress = (context: PlayerMachineContext) => {
 
 const getMostRecentPlaying = async (context: PlayerMachineContext) => {
   const [recent] = context.history.sort((a, b) => {
+    if (checkFinished(b.progress)) {
+      return -1
+    }
     return isAfter(parseJSON(a.updated), parseJSON(b.updated)) ? 1 : -1;
   });
 
   if (recent === undefined) {
     throw new Error(`Unable to find recently played, aborting`);
+  }
+
+  if (checkFinished(recent.progress)) {  
+    throw new Error(`Most recently played item has reached 100% progress, aborting`);
   }
 
   const track = await getTrack(recent.id);
@@ -267,10 +282,11 @@ const playerMachine = createMachine<PlayerMachineContext>({
     playing: {
       on: {
         END: {
-          // @TODO
-          // - Update progress to 0
-          // - Add a finished flag
-          target: "stopped"
+          target: "stopped",
+          actions: [
+            (context) => updateHistory({ ...context.playing, progress: 100 }),
+            (context) => updateCachedHistory([{ id: context.playing.id, progress: 100 }]),
+          ]
         },
         SEEK: {
           actions: [

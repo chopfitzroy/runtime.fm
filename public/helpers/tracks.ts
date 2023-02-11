@@ -16,7 +16,7 @@ export const getTrack = async (id: string) => {
   }
 }
 
-export const getTracks = async () => {
+export const getTracks = async (_?: string) => {
   const tracks = await pocketbase.collection('tracks').getFullList<TrackCollection>(200, {
     sort: '-created',
   });
