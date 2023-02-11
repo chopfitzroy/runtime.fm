@@ -6,6 +6,7 @@ import { Tracks } from '../../context/tracks';
 import { PlayerControls } from '../../components/player/controls';
 import { Warning } from '../../components/core/warning';
 import { playerSignal } from '../../lib/audio-player-machine';
+import { SideBar } from '../../components/side-bar';
 
 export default function Home() {
 	const tracks = useContext(Tracks);
@@ -15,11 +16,9 @@ export default function Home() {
 
 	return (
 		<section className={tw('flex w-screen h-screen')}>
-			<div className={tw('w-full max-w-sm p-4 bg-[#161b22] border-r(1 gray.700)')}>
+			<SideBar>
 				<img src={logo} className={tw('w-full')} />
-				<h1 className={tw`text(white)`}>Runtime FM</h1>
-				<p className={tw`text(white)`}>This will be where the podcast details are.</p>
-			</div>
+			</SideBar>
 			<div className={tw('relative flex(grow) pt-4 bg-[#0d1116]')}>
 				{showWarning && <Warning message={errorMessage} />}
 				{tracks.map(track => (
