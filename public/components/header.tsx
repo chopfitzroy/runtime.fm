@@ -10,7 +10,7 @@ const Header = ({ children }: HeaderProps) => {
 		<div className={tw('flex items-center justify-between p-4 border-b(1 gray.700)')}>
 			<div>{children}</div>
 			<div>
-				<a href="/singup" className={tw('text-yellow-400')}>Sign Up</a>
+				<a href="/signin" className={tw('text-yellow-400')}>Sign In</a>
 			</div>
 		</div>
 	);

@@ -2,12 +2,12 @@ import logo from '../../assets/logo.png';
 
 import { tw } from 'twind';
 import { useContext } from 'preact/hooks';
-import { Tracks } from '../../context/tracks';
-import { PlayerControls } from '../../components/player/controls';
-import { Warning } from '../../components/core/warning';
-import { playerSignal } from '../../lib/audio-player-machine';
-import { SideBar } from '../../components/side-bar';
-import { Header } from '../../components/header';
+import { Tracks } from '../context/tracks';
+import { PlayerControls } from '../components/player/controls';
+import { Warning } from '../components/core/warning';
+import { playerSignal } from '../lib/audio-player-machine';
+import { SideBar } from '../components/side-bar';
+import { Header } from '../components/header';
 
 export default function Home() {
 	const tracks = useContext(Tracks);

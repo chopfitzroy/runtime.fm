@@ -1,5 +1,6 @@
-import NotFound from './pages/_404.js';
-import Home from './pages/home/index.js';
+import NotFound from './pages/_404';
+import Home from './pages/home';
+import Signin from './pages/signin';
 
 import { Router, Route, lazy } from 'preact-iso';
 
@@ -9,6 +10,7 @@ export function Routes() {
   return (
       <Router>
         <Route path="/" component={Home} />
+        <Route path="/signin" component={Signin} />
         <Route path="/show-notes/:id" component={ShowNotes} />
         <Route default component={NotFound} />
       </Router>
