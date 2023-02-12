@@ -7,6 +7,7 @@ import { PlayerControls } from '../../components/player/controls';
 import { Warning } from '../../components/core/warning';
 import { playerSignal } from '../../lib/audio-player-machine';
 import { SideBar } from '../../components/side-bar';
+import { Header } from '../../components/header';
 
 export default function Home() {
 	const tracks = useContext(Tracks);
@@ -20,6 +21,9 @@ export default function Home() {
 				<img src={logo} className={tw('w-full')} />
 			</SideBar>
 			<div className={tw('relative flex(grow) pt-4 bg-[#0d1116]')}>
+				<Header>
+					<h1 className={tw('text-white text-2xl')}>Latest episodes</h1>
+				</Header>
 				{showWarning && <Warning message={errorMessage} />}
 				{tracks.map(track => (
 					<div className={tw('border-b(1 gray.700)')}>

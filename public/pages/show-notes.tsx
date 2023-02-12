@@ -19,9 +19,9 @@ const ShowNotes = () => {
 			<SideBar>
 				<p>DYNAMIC IMAGE</p>
 			</SideBar>
-			<div className={tw('relative flex(grow) p-4 bg-[#0d1116]')}>
+			<div className={tw('relative flex(grow) pt-4 bg-[#0d1116]')}>
 				{current === undefined ? <Warning message={'Sorry, we were unable to find show notes 👀'} /> :  (
-					<div>
+					<div className={tw('px-4')}>
 						<div className={tw('mb-2')}>
 							<a href="/" className={tw('text(yellow.400) text-sm font-bold')}>Back</a>
 						</div>
