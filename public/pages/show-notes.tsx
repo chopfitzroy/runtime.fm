@@ -23,7 +23,7 @@ const ShowNotes = () => {
 				{current === undefined ? <Warning message={'Sorry, we were unable to find show notes 👀'} /> :  (
 					<div className={tw('px-4')}>
 						<div className={tw('mb-2')}>
-							<a href="/" className={tw('text(yellow.400) text-sm font-bold')}>Back</a>
+							<a href="/" className={tw('text(purple.400) text-sm font-bold')}>Back</a>
 						</div>
 						<div className={tw('flex')}>
 							<div>

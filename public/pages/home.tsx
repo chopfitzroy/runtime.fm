@@ -33,13 +33,13 @@ export default function Home() {
 							<p className={tw('text(white)')}>{track.description}</p>
 							<div className={tw('flex items-center justify-between my-4')}>
 								<div className={tw('flex items-center')}>
-									<a href={track.url} target="_blank" onClick={track.select} className={tw('text(yellow.400) text-sm font-bold')}>
+									<a href={track.url} target="_blank" onClick={track.select} className={tw('text(purple.400) text-sm font-bold')}>
 										{track.state === 'waiting' && 'Listen'}
 										{track.state === 'continue' && 'Continue'}
 										{track.state === 'finished' && 'Listen again'}
 									</a>
 									<span className={tw('inline-block mx-2 text-gray-400')}>&#47;</span>
-									<a href={`/show-notes/${track.id}`} className={tw('text(yellow.400) text-sm font-bold')}>Show notes</a>
+									<a href={`/show-notes/${track.id}`} className={tw('text(purple.400) text-sm font-bold')}>Show notes</a>
 								</div>
 								<div>
 									{track.state === 'continue' && (
