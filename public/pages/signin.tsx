@@ -24,9 +24,9 @@ const submitHandler = async (event: Event) => {
 
 export default function Signin() {
   return (
-    <div className={tw('flex items-center justify-center w-screen h-screen p-4 bg-[#161b22]')}>
-      <div className={tw('p-4 rounded bg-[#0d1116]')}>
-        <p className={tw('text-white')}>Don't have an account? <a href="/signup" className={tw('text-purple-400')}>Sign up</a>.</p>
+    <div className={tw('flex items-center justify-center w-screen h-screen p-4')}>
+      <div className={tw('p-4 rounded border(2 black)')}>
+        <p>Don't have an account? <a href="/signup" className={tw('font-bold')}>Sign up</a>.</p>
         <form onSubmit={submitHandler}>
           <label for="email">Email</label>
           <input type="text" id="email" name="email" />

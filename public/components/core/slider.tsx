@@ -11,7 +11,7 @@ interface SliderProps {
 
 const trackColors = css({
   '&:first-child': {
-    backgroundColor: theme('colors.purple.400'),
+    backgroundColor: theme('colors.black'),
   },
 })
 
@@ -21,9 +21,9 @@ const HorizontalSlider = ({ min, max, value, onChange, className = '' }: SliderP
     max={max}
     value={value}
     onChange={onChange}
-    className={tw(`h-2 rounded bg(gray.700) ${className}`)}
+    className={tw(`h-2 rounded bg(gray.300) ${className}`)}
     trackClassName={tw('h-2 rounded(full)', trackColors)}
-    thumbClassName={tw('h-5 w-5 focus:outline(none) bg(white) border-[#161b22] border(2) rounded(full) -translate-y-1.5')}
+    thumbClassName={tw('h-5 w-5 focus:outline(none) bg(white) border(2 black) rounded(full) -translate-y-1.5')}
   />
 }
 
@@ -35,9 +35,9 @@ const VerticalSlider = ({ min, max, value, onChange, className = '' }: SliderPro
     invert
     orientation="vertical"
     onChange={onChange}
-    className={tw(`w-2 rounded bg(gray.700) ${className}`)}
+    className={tw(`w-2 rounded bg(gray.300) ${className}`)}
     trackClassName={tw('w-2 rounded(full)', trackColors)}
-    thumbClassName={tw('h-5 w-5 focus:outline(none) bg(white) border-[#161b22] border(2) rounded(full) -translate-x-1.5')}
+    thumbClassName={tw('h-5 w-5 focus:outline(none) bg(white) border(2 black) rounded(full) -translate-x-1.5')}
   />
 }
 

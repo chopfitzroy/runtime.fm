@@ -19,11 +19,11 @@ const ShowNotes = () => {
 			<SideBar>
 				<p>DYNAMIC IMAGE</p>
 			</SideBar>
-			<div className={tw('relative flex(grow) pt-4 bg-[#0d1116]')}>
+			<div className={tw('relative flex(grow) pt-4')}>
 				{current === undefined ? <Warning message={'Sorry, we were unable to find show notes 👀'} /> :  (
 					<div className={tw('px-4')}>
 						<div className={tw('mb-2')}>
-							<a href="/" className={tw('text(purple.400) text-sm font-bold')}>Back</a>
+							<a href="/" className={tw('text-sm font-bold')}>Back</a>
 						</div>
 						<div className={tw('flex')}>
 							<div>
@@ -32,8 +32,8 @@ const ShowNotes = () => {
 								</a>
 							</div>
 							<div className={tw('flex(grow) ml-2')}>
-								<h1 className={tw('mb-1 text-white text-2xl')}>{current.title}</h1>
-								<p className={tw('text-white')}>{current.description}</p>
+								<h1 className={tw('mb-1 text-2xl')}>{current.title}</h1>
+								<p>{current.description}</p>
 							</div>
 						</div>
 					</div>

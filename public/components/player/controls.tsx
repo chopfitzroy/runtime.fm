@@ -42,7 +42,7 @@ const PlayerControls = () => {
 
 
   return (
-    <div className={tw('absolute inset(x-0) bottom-0 p-4 bg-[#161b22] border-t(1 gray.700)')}>
+    <div className={tw('absolute inset(x-0) bottom-0 p-4 border-t(1 gray.300)')}>
       <div className={tw('flex mb-4')}>
         <div>
           <button onClick={() => playerService.send('PLAY')} className={tw('focus:border(none) focus:outline(none)')}>
@@ -54,7 +54,7 @@ const PlayerControls = () => {
         </div>
         <div className={tw('flex flex(grow) items-center justify-center')}>
           {playing && (
-            <p className={tw('text-white')}>{playing.title}</p>
+            <p>{playing.title}</p>
           )}
         </div>
         <div className={tw('relative')}>
@@ -62,7 +62,7 @@ const PlayerControls = () => {
             <Volume />
           </button>
           {volumeVisible && (
-            <div className={tw('absolute -left-0.5  bottom-8 p-2 rounded bg-[#0d1116]')}>
+            <div className={tw('absolute -left-0.5  bottom-8 p-2 rounded bg-white')}>
               <VerticalSlider min={0} max={100} value={volume} onChange={updateVolume} className={tw('h-24')} />
             </div>
           )}
