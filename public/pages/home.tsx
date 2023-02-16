@@ -27,7 +27,7 @@ export default function Home() {
 				</Header>
 				{showWarning && <Warning message={errorMessage} />}
 				{tracks.map(track => (
-					<div className={tw('border-b(1 gray.300)')}>
+					<div className={tw('border-b(2 black)')}>
 						<div className={tw('p-4')}>
 							<p className={tw('text-gray-500 text-sm')}>{track.created}</p>
 							<p className={tw('text-lg font-bold my-1')}>{track.title}</p>

@@ -44,8 +44,8 @@ const PlayerControls = () => {
   const duration = Math.floor(playing ? playerSignal.value.context.player.duration() : 0);
 
   return (
-    <div className={tw('absolute inset(x-0) bottom-0 p-4 border-t(1 gray.300)')}>
-      <div className={tw('flex mb-4')}>
+    <div className={tw('absolute inset(x-0) bottom-0 p-4 border-t(2 black)')}>
+      <div className={tw('flex')}>
         <div>
           {playing ? (
             <button onClick={() => playerService.send('PAUSE')} className={tw('focus:border(none) focus:outline(none)')}>

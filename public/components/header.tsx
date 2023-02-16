@@ -24,13 +24,13 @@ const Header = ({ children }: HeaderProps) => {
 	}, [])
 
 	return (
-		<div className={tw('flex items-center justify-between p-4 border-b(1 gray.300)')}>
+		<div className={tw('flex items-center justify-between p-4 border-b(2 black)')}>
 			<div>{children}</div>
 			<div>
 				{loggedIn ? (
-					<button onClick={signOut} className={tw('font-bold')}>Sign out</button>
+					<button onClick={signOut} className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold')}>Sign out</button>
 				) : (
-					<a href="/signin" className={tw('text-sm font-bold')}>Sign In</a>
+					<a href="/signin" className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold')}>Sign In</a>
 				)}
 			</div>
 		</div>
