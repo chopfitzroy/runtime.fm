@@ -26,7 +26,7 @@ const updateVolume = (value: number) => {
 }
 
 const PlayerControls = () => {
-	const tracks = useContext(Tracks);
+  const tracks = useContext(Tracks);
 
   const [volumeVisible, setVolumeVisible] = useState(false);
 
@@ -37,38 +37,50 @@ const PlayerControls = () => {
   const toggleVolumeVisible = () => setVolumeVisible(current => !current);
 
   const volume = playerSignal.value.context.volume * 100;
-  const playing = tracks.find(track => track.id === playerSignal.value.context.playing.id);
+  const playing = playerSignal.value.value === 'playing';
+  const current = tracks.find(track => track.id === playerSignal.value.context.playing.id);
   const progress = playerSignal.value.context.playing.progress ?? 0;
-
+  const position = Math.floor(playerSignal.value.context.playing.position ?? 0);
+  const duration = Math.floor(playing ? playerSignal.value.context.player.duration() : 0);
 
   return (
     <div className={tw('absolute inset(x-0) bottom-0 p-4 border-t(1 gray.300)')}>
       <div className={tw('flex mb-4')}>
         <div>
-          <button onClick={() => playerService.send('PLAY')} className={tw('focus:border(none) focus:outline(none)')}>
-            <PlayCircle />
-          </button>
-          <button onClick={() => playerService.send('PAUSE')} className={tw('focus:border(none) focus:outline(none)')}>
-            <PauseCircle />
-          </button>
+          {playing ? (
+            <button onClick={() => playerService.send('PAUSE')} className={tw('focus:border(none) focus:outline(none)')}>
+              <PauseCircle size={tw('w-16 h-16')} />
+            </button>
+          ) : (
+            <button onClick={() => playerService.send('PLAY')} className={tw('focus:border(none) focus:outline(none)')}>
+              <PlayCircle size={tw('w-16 h-16')} />
+            </button>
+          )}
         </div>
-        <div className={tw('flex flex(grow) items-center justify-center')}>
+        <div className={tw('flex(grow)')}>
+          {current && (
+            <p className={tw('mb-4 text-center')}>{current.title}</p>
+          )}
+          <HorizontalSlider min={0} max={100} value={progress} onChange={seek} />
+        </div>
+        <div className={tw('flex items-end justify-start w-20 p-2')}>
           {playing && (
-            <p>{playing.title}</p>
+            <p className={tw('text-sm text-gray-500')}>{position} / {duration}</p>
           )}
         </div>
-        <div className={tw('relative')}>
-          <button onClick={toggleVolumeVisible} className={tw('focus:border(none) focus:outline(none)')}>
-            <Volume />
-          </button>
-          {volumeVisible && (
-            <div className={tw('absolute -left-0.5  bottom-8 p-2 rounded bg-white')}>
-              <VerticalSlider min={0} max={100} value={volume} onChange={updateVolume} className={tw('h-24')} />
-            </div>
-          )}
+        <div>
+          <div className={tw('relative')}>
+            <button onClick={toggleVolumeVisible} className={tw('focus:border(none) focus:outline(none)')}>
+              <Volume />
+            </button>
+            {volumeVisible && (
+              <div className={tw('absolute -left-0.5 bottom-8 p-2 rounded bg-white')}>
+                <VerticalSlider min={0} max={100} value={volume} onChange={updateVolume} className={tw('h-24')} />
+              </div>
+            )}
+          </div>
         </div>
       </div>
-      <HorizontalSlider min={0} max={100} value={progress} onChange={seek} />
     </div>
   );
 };
