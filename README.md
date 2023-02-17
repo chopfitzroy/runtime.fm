@@ -16,8 +16,8 @@ Other tools include:
 
 - [Twind](https://twind.dev/)
 - [XState](https://xstate.js.org/)
+- [sitemap](https://github.com/ekalinin/sitemap.js)
 - [Podcast](https://github.com/maxnowack/node-podcast)
-- [sitemate](https://github.com/ekalinin/sitemap.js)
 - [howler.js](https://howlerjs.com/)
 
 For API setup see this [repo](https://github.com/chopfitzroy/api.coffeeandcode.app).
@@ -28,11 +28,11 @@ We make extensive use of pre-rendering. To do this effectively we use `use-fetch
 
 A number of hooks were evaluated before deciding on `use-fetch` below are some of the other options considered:
 
-- [`vigzmv/react-promise-suspense`](https://github.com/vigzmv/react-promise-suspense)
-- [`CharlesStover/fetch-suspense`](https://github.com/CharlesStover/fetch-suspense)
-- [`dai-shi/react-suspense-fetch`](https://github.com/dai-shi/react-suspense-fetch)
-- [`dai-shi/react-hooks-fetch`](https://github.com/dai-shi/react-hooks-fetch)
 - [`pmndrs/use-asset`](https://github.com/pmndrs/use-asset)
+- [`dai-shi/react-hooks-fetch`](https://github.com/dai-shi/react-hooks-fetch)
+- [`dai-shi/react-suspense-fetch`](https://github.com/dai-shi/react-suspense-fetch)
+- [`CharlesStover/fetch-suspense`](https://github.com/CharlesStover/fetch-suspense)
+- [`vigzmv/react-promise-suspense`](https://github.com/vigzmv/react-promise-suspense)
 
 There was even a period where we [rolled our own](https://github.com/preactjs/wmr/discussions/950).
 
