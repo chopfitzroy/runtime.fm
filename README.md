@@ -2,6 +2,12 @@
 
 Single page app that powers the [runtime.fm](https://runtime.fm) website! 
 
+### Design
+
+What started out as wireframing very quickly became quite similar to [neo brutalist](https://bootcamp.uxdesign.cc/the-neubrutalism-or-neo-brutalism-ui-design-trend-641714825fed) design.
+
+Since then we have become quite found of this style of design and decided to continue in this direction.
+
 ### Stack
 
 The site is deployed to [Cloudflare pages](https://pages.cloudflare.com/) and the API is a [PocketBase](https://pocketbase.io/) instance running on [Digital Ocean](https://www.digitalocean.com/).
@@ -10,6 +16,8 @@ Other tools include:
 
 - [Twind](https://twind.dev/)
 - [XState](https://xstate.js.org/)
+- [Podcast](https://github.com/maxnowack/node-podcast)
+- [sitemate](https://github.com/ekalinin/sitemap.js)
 - [howler.js](https://howlerjs.com/)
 
 For API setup see this [repo](https://github.com/chopfitzroy/api.coffeeandcode.app).
@@ -41,9 +49,10 @@ Unfortunately because we are using `preact/compat` we are [required](https://git
 - Use [Zod](https://zod.dev/) to validate data before sending to Pocketbase.
 - Use [Stork](https://stork-search.net/) to create pre-compiled search index.
 - Use [Ranger](https://github.com/TanStack/ranger) to handle volume/progress sliders.
-- Would love to use [Radix UI](https://www.radix-ui.com/) but does not work pending [this issue](https://github.com/preactjs/preact/issues/3666).
 
-**Note**: If Radix is added remember to add the following to your `tsconfig.json` under `compilerOptions`: 
+### Gotcha's
+
+If you are experiencing issues with React types update your `tsconfig.json` specifically `compilerOptions` to include the following:
 
 ```json
 "paths": {
