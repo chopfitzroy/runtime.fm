@@ -1,5 +1,3 @@
-import logo from '../../assets/logo.png';
-
 import { tw } from 'twind';
 import { useContext } from 'preact/hooks';
 import { Tracks } from '../context/tracks';
@@ -19,7 +17,7 @@ export default function Home() {
 	return (
 		<section className={tw('flex w-screen h-screen')}>
 			<SideBar>
-				<img src={logo} className={tw('w-full')} />
+				<img src="/assets/logo.png" className={tw('w-full')} />
 			</SideBar>
 			<div className={tw('relative flex(grow) pt-4')}>
 				<Header>
