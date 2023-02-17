@@ -16,9 +16,7 @@ export default function Home() {
 
 	return (
 		<section className={tw('flex w-screen h-screen')}>
-			<SideBar>
-				<img src="/assets/logo.png" className={tw('w-full')} />
-			</SideBar>
+			<SideBar />
 			<div className={tw('relative flex(grow) pt-4')}>
 				<Header>
 					<h1 className={tw('text-2xl')}>Latest episodes</h1>
@@ -27,12 +25,12 @@ export default function Home() {
 				{tracks.map(track => (
 					<div className={tw('border-b(2 black)')}>
 						<div className={tw('p-4')}>
-							<p className={tw('text-gray-500 text-sm')}>{track.created}</p>
-							<p className={tw('text-lg font-bold my-1')}>{track.title}</p>
-							<p>{track.description}</p>
+							<p className={tw('text-gray-500 text-sm font-mono')}>{track.created}</p>
+							<p className={tw('text-lg font-bold my-1 font-mono')}>{track.title}</p>
+							<p className={tw('font-mono')}>{track.description}</p>
 							<div className={tw('flex items-center justify-between my-4')}>
 								<div className={tw('flex items-center')}>
-									<a href={track.url} target="_blank" onClick={track.select} className={tw('flex items-center text-sm font-bold')}>
+									<a href={track.url} target="_blank" onClick={track.select} className={tw('flex items-center text-sm font-bold font-mono')}>
 										<PlayCircle />
 										<span className={tw('inline-block ml-2')}>
 											{track.state === 'waiting' && 'Listen'}
@@ -41,11 +39,11 @@ export default function Home() {
 										</span>
 									</a>
 									<span className={tw('inline-block mx-2 text-gray-300')}>&#47;</span>
-									<a href={`/show-notes/${track.id}`} className={tw('text-sm font-bold')}>Show notes</a>
+									<a href={`/show-notes/${track.id}`} className={tw('text-sm font-bold font-mono')}>Show notes</a>
 								</div>
 								<div>
 									{track.state === 'continue' && (
-										<p className={tw('text-gray-500 text-sm')}>{Math.floor(track.progress)}%</p>
+										<p className={tw('text-gray-500 text-sm font-mono')}>{Math.floor(track.progress)}%</p>
 									)}
 								</div>
 							</div>

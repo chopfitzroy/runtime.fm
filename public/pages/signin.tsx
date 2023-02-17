@@ -26,14 +26,14 @@ export default function Signin() {
   return (
     <div className={tw('flex items-center justify-center w-screen h-screen p-4')}>
       <div className={tw('p-4 w-full max-w-md rounded border(2 black)')}>
-        <p className={tw('mb-4')}>Don't have an account? <a href="/signup" className={tw('font-bold')}>Sign up</a>.</p>
+        <p className={tw('mb-4 font-mono')}>Don't have an account? <a href="/signup" className={tw('font-bold font-mono')}>Sign up</a>.</p>
         <form onSubmit={submitHandler}>
-          <label for="email">Email</label>
-          <input type="text" id="email" name="email" className={tw('block w-full p-1 mb-4 border-b(2 black) outline-none')} />
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" className={tw('block w-full p-1 mb-4 border-b(2 black) outline-none')} />
+          <label for="email" className={tw('font-mono')}>Email</label>
+          <input type="text" id="email" name="email" className={tw('block w-full p-1 mb-4 border-b(2 black) outline-none font-mono')} />
+          <label for="password" className={tw('font-mono')}>Password</label>
+          <input type="password" id="password" name="password" className={tw('block w-full p-1 mb-4 border-b(2 black) outline-none font-mono')} />
           <div className={tw('flex items-center justify-end')}>
-            <button type="submit" className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold')}>Sign in</button>
+            <button type="submit" className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold font-mono')}>Sign in</button>
           </div>
         </form>
       </div>

@@ -6,9 +6,9 @@ interface WarningProps {
 
 const Warning = ({ message = 'Please refresh your browser.' }: WarningProps) => {
 	return (
-		<div className={tw('p-4 mx-4 mb-4 border(2 yellow.400)')}>
-			<h3 className={tw('text-lg')}>Something went wrong 👀</h3>
-			<p>{message}</p>
+		<div className={tw('p-4 mx-4 mb-4 border(2 black)')}>
+			<p className={tw('text-lg font-mono')}>Something went wrong 👀</p>
+			<p className={tw('font-mono')}>{message}</p>
 		</div>
 	);
 }

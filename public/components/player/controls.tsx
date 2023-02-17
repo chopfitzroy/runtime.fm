@@ -59,13 +59,13 @@ const PlayerControls = () => {
         </div>
         <div className={tw('flex(grow)')}>
           {current && (
-            <p className={tw('mb-4 text-center')}>{current.title}</p>
+            <p className={tw('mb-4 text-center font-mono')}>{current.title}</p>
           )}
           <HorizontalSlider min={0} max={100} value={progress} onChange={seek} />
         </div>
         <div className={tw('flex items-end justify-start w-20 p-2')}>
           {playing && (
-            <p className={tw('text-sm text-gray-500')}>{position} / {duration}</p>
+            <p className={tw('text-sm text-gray-500 font-mono')}>{position} / {duration}</p>
           )}
         </div>
         <div>

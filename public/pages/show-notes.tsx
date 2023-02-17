@@ -2,6 +2,7 @@ import { useRoute } from "preact-iso";
 import { useContext } from "preact/hooks";
 import { tw } from "twind";
 import { Warning } from "../components/core/warning";
+import { Header } from "../components/header";
 import { PlayCircle } from "../components/icons/play-circle";
 import { PlayerControls } from "../components/player/controls";
 import { SideBar } from "../components/side-bar";
@@ -21,22 +22,23 @@ const ShowNotes = () => {
 			</SideBar>
 			<div className={tw('relative flex(grow) pt-4')}>
 				{current === undefined ? <Warning message={'Sorry, we were unable to find show notes 👀'} /> :  (
-					<div className={tw('px-4')}>
-						<div className={tw('mb-2')}>
-							<a href="/" className={tw('text-sm font-bold')}>Back</a>
-						</div>
-						<div className={tw('flex')}>
-							<div>
-								<a href={current.url} target="_blank" onClick={current.select}>
-									<PlayCircle size={tw('w-12 h-12')} />
-								</a>
+					<>
+						<Header>
+							<h1 className={tw('text-2xl')}>{current.title}</h1>
+						</Header>
+						<div className={tw('p-4')}>
+							<div className={tw('flex')}>
+								<div>
+									<a href={current.url} target="_blank" onClick={current.select}>
+										<PlayCircle size={tw('w-12 h-12')} />
+									</a>
+								</div>
+								<div className={tw('flex(grow) ml-2')}>
+									<p className={tw('font-mono')}>{current.description}</p>
+								</div>
 							</div>
-							<div className={tw('flex(grow) ml-2')}>
-								<h1 className={tw('mb-1 text-2xl')}>{current.title}</h1>
-								<p>{current.description}</p>
-							</div>
 						</div>
-					</div>
+					</>
 				)}
 				<PlayerControls />
 			</div>

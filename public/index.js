@@ -7,14 +7,15 @@ const { hydrate, prerender } = withTwind({
     extend: {
       fontFamily: (theme) => {
         return {
-          sans: ['Inconsolata', ...theme('fontFamily').sans],
+          sans: ['Karla', ...theme('fontFamily').sans],
+          mono: ['Inconsolata', ...theme('fontFamily').mono],
         }
       }
     },
   },
   preflight: {
     // Import external stylesheet
-    '@import': `url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap')`
+    '@import': `url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Karla:wght@400;700&display=swap')`
   }
 }, (data) => <App {...data} />)
 

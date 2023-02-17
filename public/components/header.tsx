@@ -28,9 +28,9 @@ const Header = ({ children }: HeaderProps) => {
 			<div>{children}</div>
 			<div>
 				{loggedIn ? (
-					<button onClick={signOut} className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold')}>Sign out</button>
+					<button onClick={signOut} className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold font-mono')}>Sign out</button>
 				) : (
-					<a href="/signin" className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold')}>Sign In</a>
+					<a href="/signin" className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold font-mono')}>Sign In</a>
 				)}
 			</div>
 		</div>
