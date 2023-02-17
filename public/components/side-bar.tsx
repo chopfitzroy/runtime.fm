@@ -13,10 +13,10 @@ const SideBar = ({ children }: SidebarProps) => {
 		<aside className={tw('w-full max-w-sm p-4 border-r(2 black)')}>
 			{children ? children : (
 				<div className={tw('flex items-center justify-center mt-12 mb-20')}>
-				<h1 className={tw('text-center border-b(2 black) -rotate-2')}>
+				<h3 className={tw('text-center border-b(2 black) -rotate-2')}>
 					<span className={tw('inline-block text-5xl font-mono')}>Runtime</span>
 					<span className={tw('inline-block ml-2 text-6xl font-bold')}>FM</span>
-				</h1>
+				</h3>
 		</div>
 			)}
 			<div className={tw('flex items-center mb-2')}>
