@@ -1,13 +1,13 @@
 {
 	"private": true,
 	"scripts": {
-		"prod": "run-s build script",
+		"prod": "run-s build",
 		"start": "wmr",
 		"build": "wmr build --prerender",
 		"serve": "wmr serve",
 		"script": "run-p script:*",
-		"script:rss": "npx tsx ./scripts/rss.ts",
-		"script:sitemap": "npx tsx ./scripts/sitemap.ts"
+		"script:rss": "tsx ./scripts/rss.ts",
+		"script:sitemap": "tsx ./scripts/sitemap.ts"
 	},
 	"eslintConfig": {
 		"extends": "preact"
@@ -32,6 +32,7 @@
 		"npm-run-all": "^4.1.5",
 		"podcast": "^2.0.1",
 		"sitemap": "^7.1.1",
+		"tsx": "^3.12.7",
 		"wmr": "^3.8.0"
 	}
 }
