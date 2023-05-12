@@ -8,8 +8,8 @@ export type Collection<T> = {
   collectionName: string;
 } & T;
 
-export const pocketbase = new PocketBase('https://api.coffeeandcode.app');
+export const pocketbase = new PocketBase('https://admin.runtime.fm');
 
 export const createFileUrlFromRecord = <T>(record: Collection<T>, key: keyof Collection<T>) => {
-  return `https://api.coffeeandcode.app/api/files/${record.collectionId}/${record.id}/${record[key]}`
+  return `https://admin.runtime.fm/api/files/${record.collectionId}/${record.id}/${record[key]}`
 }

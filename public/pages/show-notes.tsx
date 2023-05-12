@@ -15,10 +15,14 @@ const ShowNotes = () => {
 
 	const current = tracks.find(track => track.id === route.params.id);
 
+	if (current === undefined) {
+		return null;
+	}
+
 	return (
 		<section className={tw('flex w-screen h-screen')}>
 			<SideBar>
-				<p>DYNAMIC IMAGE</p>
+				<img src={`https://art.runtime.fm/api/album-art?id=${current.id}&size=500`} alt={current.title} />
 			</SideBar>
 			<div className={tw('relative flex(grow) pt-4')}>
 				{current === undefined ? <Warning message={'Sorry, we were unable to find show notes 👀'} /> :  (
