@@ -20,7 +20,7 @@ Other tools include:
 - [Podcast](https://github.com/maxnowack/node-podcast)
 - [howler.js](https://howlerjs.com/)
 
-For API setup see this [repo](https://github.com/chopfitzroy/api.coffeeandcode.app).
+For API setup see this [repo](https://github.com/chopfitzroy/admin.runtime.fm/).
 
 ### Pre-rendering
 
