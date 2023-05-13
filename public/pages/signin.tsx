@@ -26,6 +26,9 @@ export default function Signin() {
   return (
     <div className={tw('flex items-center justify-center w-screen h-screen p-4')}>
       <div className={tw('p-4 w-full max-w-md rounded border(2 black)')}>
+				<p>
+					<a href="/" className={tw('mb-2 font-bold text-xs')}>Back</a>
+				</p>
         <p className={tw('mb-4 font-mono')}>Don't have an account? <a href="/signup" className={tw('font-bold font-mono')}>Sign up</a>.</p>
         <form onSubmit={submitHandler}>
           <label for="email" className={tw('font-mono')}>Email</label>

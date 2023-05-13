@@ -24,13 +24,16 @@ const ShowNotes = () => {
 			<SideBar>
 				<img src={`https://art.runtime.fm/api/album-art?id=${current.id}&size=500`} alt={current.title} />
 			</SideBar>
-			<div className={tw('relative flex(grow) pt-4')}>
+			<div className={tw('relative flex(grow) pt-4 overflow-auto')}>
 				{current === undefined ? <Warning message={'Sorry, we were unable to find show notes 👀'} /> :  (
 					<>
 						<Header>
 							<h1 className={tw('text-2xl')}>{current.title}</h1>
 						</Header>
 						<div className={tw('p-4')}>
+							<p>
+								<a href="/" className={tw('block mb-2 font-bold text-xs')}>Back</a>
+							</p>
 							<div className={tw('flex')}>
 								<div>
 									<a href={current.url} target="_blank" onClick={current.select}>

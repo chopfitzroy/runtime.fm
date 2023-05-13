@@ -21,14 +21,17 @@ const Header = ({ children }: HeaderProps) => {
 		});
 
 		return remove;
-	}, [])
+	}, []);
 
 	return (
 		<div className={tw('flex items-center justify-between p-4 border-b(2 black)')}>
+			<div className={tw('md:hidden')}>
+					<button onClick={() => null} className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold font-mono leading-none')}>Menu</button>
+			</div>
 			<div>{children}</div>
 			<div>
 				{loggedIn ? (
-					<button onClick={signOut} className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold font-mono')}>Sign out</button>
+					<button onClick={signOut} className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold font-mono leading-none')}>Sign out</button>
 				) : (
 					<a href="/signin" className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold font-mono')}>Sign In</a>
 				)}
