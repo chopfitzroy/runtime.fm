@@ -10,13 +10,14 @@ Since then we have become quite found of this style of design and decided to con
 
 ### Stack
 
-The site is deployed to [Cloudflare pages](https://pages.cloudflare.com/) and the API is a [PocketBase](https://pocketbase.io/) instance running on [Digital Ocean](https://www.digitalocean.com/).
+The site is deployed to [Vercel](https://vercel.com/) and the API is a [PocketBase](https://pocketbase.io/) instance running on [Digital Ocean](https://www.digitalocean.com/).
 
 Other tools include:
 
 - [Twind](https://twind.dev/)
 - [XState](https://xstate.js.org/)
 - [sitemap](https://github.com/ekalinin/sitemap.js)
+- [Signals](https://preactjs.com/guide/v10/signals/)
 - [Podcast](https://github.com/maxnowack/node-podcast)
 - [howler.js](https://howlerjs.com/)
 
@@ -24,11 +25,10 @@ For API setup see this [repo](https://github.com/chopfitzroy/admin.runtime.fm/).
 
 ### Pre-rendering
 
-We make extensive use of pre-rendering. To do this effectively we use `use-fetch` to fetch data in a [suspense friendly](https://github.com/preactjs/wmr/tree/main/packages/preact-iso#prerenderjs) way.
+We make extensive use of pre-rendering. To do this effectively we use [`pmndrs/use-asset`](https://github.com/pmndrs/use-asset) to fetch data in a [suspense friendly](https://github.com/preactjs/wmr/tree/main/packages/preact-iso#prerenderjs) way.
 
-A number of hooks were evaluated before deciding on `use-fetch` below are some of the other options considered:
+A number of hooks were evaluated before deciding on `use-asset` below are some of the other options considered:
 
-- [`pmndrs/use-asset`](https://github.com/pmndrs/use-asset)
 - [`dai-shi/react-hooks-fetch`](https://github.com/dai-shi/react-hooks-fetch)
 - [`dai-shi/react-suspense-fetch`](https://github.com/dai-shi/react-suspense-fetch)
 - [`CharlesStover/fetch-suspense`](https://github.com/CharlesStover/fetch-suspense)
