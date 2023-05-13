@@ -1,4 +1,5 @@
 import Home from './pages/home';
+import About from './pages/about';
 import Signin from './pages/signin';
 import Signup from './pages/signup';
 import NotFound from './pages/_404';
@@ -11,6 +12,7 @@ export function Routes() {
   return (
       <Router>
         <Route path="/" component={Home} />
+        <Route path="/about" component={About} />
         <Route path="/signin" component={Signin} />
         <Route path="/signup" component={Signup} />
         <Route path="/show-notes/:id" component={ShowNotes} />

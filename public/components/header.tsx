@@ -26,7 +26,7 @@ const Header = ({ children }: HeaderProps) => {
 	return (
 		<div className={tw('flex items-center justify-between p-4 border-b(2 black)')}>
 			<div className={tw('md:hidden')}>
-					<button onClick={() => null} className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold font-mono leading-none')}>Menu</button>
+					<a href="/about" className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold font-mono')}>About</a>
 			</div>
 			<div>{children}</div>
 			<div>
