@@ -33,7 +33,6 @@ const createFeed = async () => {
 		itunesCategory: [{
 			text: 'Technology',
 		}],
-		itunesImage: 'https://runtime.fm/image.png'
 	});
 
 	tracks.forEach(track => {
@@ -48,6 +47,7 @@ const createFeed = async () => {
 			// @TODO
 			// - What is this?
 			// enclosure: { url: '...', file: 'path-to-file' },
+			itunesImage: `https://art.runtime.fm/api/album-art?id=${track.id}`,
 			itunesAuthor: 'Otis Sutton',
 			itunesExplicit: false,
 			itunesSubtitle: track.title,
