@@ -18,6 +18,7 @@ const createMap = async () => {
 
   const links = [
     { url: '/', changefreq: 'weekly', priority: 1 },
+    { url: '/about', changefreq: 'monthly', priority: 0.1 },
     { url: '/signup', changefreq: 'monthly', priority: 0.1 },
     { url: '/signin', changefreq: 'monthly', priority: 0.1 },
     ...notes,
