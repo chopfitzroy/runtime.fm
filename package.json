@@ -1,10 +1,10 @@
 {
 	"private": true,
 	"scripts": {
-		"build": "run-s build:source script",
+		"prod": "run-s build script",
 		"start": "wmr",
 		"serve": "wmr serve",
-		"build:source": "wmr build --prerender",
+		"build": "wmr build --prerender",
 		"script": "run-p script:*",
 		"script:rss": "tsx ./scripts/rss.ts",
 		"script:sitemap": "tsx ./scripts/sitemap.ts"
