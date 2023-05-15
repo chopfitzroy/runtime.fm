@@ -10,12 +10,14 @@ const createFeed = async () => {
 		sort: '-created',
 	});
 
+	const [latest] = tracks;
+
 	const feed = new Podcast({
 		title: 'Runtime FM',
 		description: 'Runtime FM is a podcast for developers, designers, dev ops, dev rel, and more.',
 		feedUrl: 'https://runtime.fm/rss.xml',
 		siteUrl: 'https://runtime.fm',
-		imageUrl: 'https://runtime.fm/icon.png',
+		imageUrl: `https://art.runtime.fm/api/album-art?id=${latest.id}`,
 		docs: 'https://runtime.fm/rss/docs.html',
 		author: 'Otis Sutton',
 		managingEditor: 'Otis Sutton',
