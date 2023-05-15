@@ -14,7 +14,7 @@ const createFeed = async () => {
 
 	const feed = new Podcast({
 		title: 'Runtime FM',
-		description: 'Runtime FM is a podcast for developers, designers, dev ops, dev rel, and more.',
+		description: 'Runtime FM is a podcast for software engineers interested in web development.',
 		feedUrl: 'https://runtime.fm/rss.xml',
 		siteUrl: 'https://runtime.fm',
 		imageUrl: `https://art.runtime.fm/api/album-art?id=${latest.id}`,
@@ -29,7 +29,7 @@ const createFeed = async () => {
 		ttl: 60,
 		itunesAuthor: 'Otis Sutton',
 		itunesSubtitle: 'Runtime FM',
-		itunesSummary: 'Runtime FM is a podcast for software engineers interested in web development',
+		itunesSummary: 'Runtime FM is a podcast for software engineers interested in web development.',
 		itunesOwner: { name: 'Otis Sutton', email: 'hello@otis.engineer' },
 		itunesExplicit: false,
 		itunesCategory: [{
