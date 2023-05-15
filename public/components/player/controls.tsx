@@ -16,7 +16,6 @@ const seek = (progress: number) => {
   });
 }
 
-
 const updateVolume = (value: number) => {
   const volume = value / 100;
   playerService.send({
@@ -44,7 +43,7 @@ const PlayerControls = () => {
   const duration = Math.floor(playing ? playerSignal.value.context.player.duration() : 0);
 
   return (
-    <div className={tw('absolute inset(x-0) bottom-0 p-4 border-t(2 black)')}>
+    <div className={tw('sticky bottom-0 w-full p-4 border-t(2 black) bg-white')}>
       <div className={tw('flex')}>
         <div>
           {playing ? (
