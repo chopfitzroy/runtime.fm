@@ -18,7 +18,7 @@ const createFeed = async () => {
 		feedUrl: 'https://runtime.fm/rss.xml',
 		siteUrl: 'https://runtime.fm',
 		imageUrl: `https://art.runtime.fm/api/album-art?id=${latest.id}`,
-		docs: 'https://runtime.fm/rss/docs.html',
+		docs: 'https://github.com/chopfitzroy/runtime.fm',
 		author: 'Otis Sutton',
 		managingEditor: 'Otis Sutton',
 		webMaster: 'Otis Sutton',
@@ -29,7 +29,7 @@ const createFeed = async () => {
 		ttl: 60,
 		itunesAuthor: 'Otis Sutton',
 		itunesSubtitle: 'Runtime FM',
-		itunesSummary: 'Runtime FM is a podcast for developers, designers, dev ops, dev rel, and more.',
+		itunesSummary: 'Runtime FM is a podcast for software engineers interested in web development',
 		itunesOwner: { name: 'Otis Sutton', email: 'hello@otis.engineer' },
 		itunesExplicit: false,
 		itunesCategory: [{
@@ -55,7 +55,7 @@ const createFeed = async () => {
 			itunesSubtitle: track.title,
 			itunesSummary: track.description,
 			itunesDuration: 12345,
-			itunesNewFeedUrl: 'https://runtime.fm/feed.rss',
+			itunesNewFeedUrl: 'https://runtime.fm/rss.xml',
 		});
 	});
 
