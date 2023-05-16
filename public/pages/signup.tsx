@@ -20,9 +20,9 @@ export default function Signup() {
 		<div className={tw('flex items-center justify-center w-screen h-screen p-4')}>
 			<div className={tw('p-4 w-full max-w-md rounded border(2 black)')}>
 				<p>
-					<a href="/" className={tw('mb-2 font-bold text-xs')}>Back</a>
+					<a href="/" className={tw('block mb-3 font-bold text-xs')}>Back</a>
 				</p>
-				<p className={tw('mb-4 font-mono')}>Already have an account? <a href="/signin" className={tw('font-bold font-mono')}>Sign in</a>.</p>
+				<p className={tw('mb-4 font-mono')}>Listen on multiple devices? Sign up now to persist your listening progress across all of your devices.</p>
 				<form onSubmit={submitHandler}>
 					<label for="email" className={tw('font-mono')}>Email</label>
 					<input type="text" id="email" name="email" className={tw('block w-full p-1 mb-4 border-b(2 black) outline-none font-mono')} />
@@ -34,6 +34,7 @@ export default function Signup() {
 						<button type="submit" className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold font-mono')}>Sign up</button>
 					</div>
 				</form>
+				<p className={tw('mb-2 font-mono')}>Already have an account? <a href="/signin" className={tw('font-bold font-mono')}>Sign in</a>.</p>
 			</div>
 		</div>
 	);

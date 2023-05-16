@@ -27,9 +27,8 @@ export default function Signin() {
     <div className={tw('flex items-center justify-center w-screen h-screen p-4')}>
       <div className={tw('p-4 w-full max-w-md rounded border(2 black)')}>
 				<p>
-					<a href="/" className={tw('mb-2 font-bold text-xs')}>Back</a>
+					<a href="/" className={tw('block mb-3 font-bold text-xs')}>Back</a>
 				</p>
-        <p className={tw('mb-4 font-mono')}>Don't have an account? <a href="/signup" className={tw('font-bold font-mono')}>Sign up</a>.</p>
         <form onSubmit={submitHandler}>
           <label for="email" className={tw('font-mono')}>Email</label>
           <input type="text" id="email" name="email" className={tw('block w-full p-1 mb-4 border-b(2 black) outline-none font-mono')} />
@@ -39,6 +38,7 @@ export default function Signin() {
             <button type="submit" className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold font-mono')}>Sign in</button>
           </div>
         </form>
+        <p className={tw('mb-2 font-mono')}>Don't have an account? <a href="/signup" className={tw('font-bold font-mono')}>Sign up</a>.</p>
       </div>
     </div>
   );

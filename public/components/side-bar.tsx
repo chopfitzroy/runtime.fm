@@ -35,8 +35,7 @@ const SideBar = ({ children }: SidebarProps) => {
 			<div className={tw('mb-4')}>
 				<ul>
 					<li><a href="#" target="_blank" className={tw('font-bold font-mono')}>Apple Podcasts</a></li>
-					<li><a href="#" target="_blank" className={tw('font-bold font-mono')}>Overcast</a></li>
-					<li><a href="#" target="_blank" className={tw('font-bold font-mono')}>Spotify</a></li>
+					<li><a href="https://open.spotify.com/show/15z8cEpiTnbmmQy5EDt4Sy" target="_blank" className={tw('font-bold font-mono')}>Spotify</a></li>
 					<li><a href="/rss.xml" target="_blank" className={tw('font-bold font-mono')}>RSS</a></li>
 				</ul>
 			</div>
