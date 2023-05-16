@@ -17,7 +17,7 @@ export default function Home() {
 	return (
 		<section className={tw('flex w-screen h-screen')}>
 			<SideBar />
-			<div className={tw('relative flex flex(col) justify-between overflow-auto')}>
+			<div className={tw('relative w-full flex flex(col) justify-between overflow-auto')}>
 				<div>
 					<Header>
 						<h1 className={tw('text-2xl')}>Latest episodes</h1>
