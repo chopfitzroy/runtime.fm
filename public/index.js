@@ -14,8 +14,28 @@ const { hydrate, prerender } = withTwind({
     },
   },
   preflight: {
-    // Import external stylesheet
-    '@import': `url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Karla:wght@400;700&display=swap')`
+    '@font-face': [
+      {
+        fontFamily: 'Karla',
+        fontWeight: '400',
+        src: 'url(/fonts/Karla-Regular.ttf) format("truetype")',
+      },
+      {
+        fontFamily: 'Karla',
+        fontWeight: '700',
+        src: 'url(/fonts/Karla-Bold.ttf) format("truetype")',
+      },
+      {
+        fontFamily: 'Inconsolata',
+        fontWeight: '400',
+        src: 'url(/fonts/Inconsolata-Regular.ttf) format("truetype")',
+      },
+      {
+        fontFamily: 'Inconsolata',
+        fontWeight: '700',
+        src: 'url(/fonts/Inconsolata-Bold.ttf) format("truetype")',
+      },
+    ]
   }
 }, (data) => <App {...data} />)
 
