@@ -4,3 +4,4 @@ dist
 stats.html
 .DS_Store
 .vercel
+.vercel.json
