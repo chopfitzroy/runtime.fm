@@ -2,9 +2,10 @@ import type { TrackCollection } from '../public/helpers/tracks';
 
 import * as fs from 'fs/promises';
 
-import { getAudioDurationInSeconds } from 'get-audio-duration';
+import ufs from "url-file-size";
 
 import { Podcast } from 'podcast';
+import { getAudioDurationInSeconds } from 'get-audio-duration';
 import { createFileUrlFromRecord, pocketbase } from '../public/helpers/pocketbase';
 
 const createFeed = async () => {
@@ -43,7 +44,7 @@ const createFeed = async () => {
 		feed.addItem({
 			title: track.title,
 			description: track.description,
-			url: createFileUrlFromRecord(track, 'audio'),
+			url: `https://runtime.fm/show-notes/${track.id}`,
 			guid: track.id,
 			categories: ['Technology'],
 			author: 'Otis Sutton',
@@ -51,6 +52,7 @@ const createFeed = async () => {
 			enclosure: {
 				url: createFileUrlFromRecord(track, 'audio'),
 				type: 'audio/mpeg',
+				size: await ufs(createFileUrlFromRecord(track, 'audio')),
 			},
 			itunesImage: `https://art.runtime.fm/api/album-art?id=${track.id}`,
 			itunesAuthor: 'Otis Sutton',
