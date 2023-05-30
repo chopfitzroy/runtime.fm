@@ -4,6 +4,7 @@ import { SideBar } from "../components/side-bar";
 import { PlayerControls } from "../components/player/controls";
 import { CursorArrowRipple } from "../components/icons/cursor-arrow-ripple";
 import { InformationCircle } from "../components/icons/information-circle";
+import { MegaPhone } from "../components/icons/mega-phone";
 
 
 const About = () => {
@@ -13,7 +14,7 @@ const About = () => {
 	return (
 		<section className={tw('flex w-screen h-screen')}>
 			<SideBar />
-			<div className={tw('relative flex flex(col) justify-between overflow-auto')}>
+			<div className={tw('w-full relative flex flex(col) justify-between overflow-auto')}>
 				<div>
 					<Header>
 						<h1 className={tw('text-2xl')}>About</h1>
@@ -39,6 +40,15 @@ const About = () => {
 								<li><a href="#" target="_blank" className={tw('font-bold font-mono')}>Apple Podcasts</a></li>
 								<li><a href="https://open.spotify.com/show/15z8cEpiTnbmmQy5EDt4Sy" target="_blank" className={tw('font-bold font-mono')}>Spotify</a></li>
 								<li><a href="/rss.xml" target="_blank" className={tw('font-bold font-mono')}>RSS</a></li>
+							</ul>
+						</div>
+						<div className={tw('flex items-center mb-2')}>
+							<MegaPhone />
+							<p className={tw('ml-2 text-lg font-bold')}>Want more</p>
+						</div>
+						<div className={tw('mb-4')}>
+							<ul>
+								<li><a href="https://discord.gg/nTajDw3HC5" target="_blank" className={tw('font-bold font-mono')}>Join the Discord</a></li>
 							</ul>
 						</div>
 					</div>

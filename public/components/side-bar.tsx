@@ -5,6 +5,7 @@ import { CursorArrowRipple } from './icons/cursor-arrow-ripple';
 import { InformationCircle } from './icons/information-circle';
 import { Tracks } from '../context/tracks';
 import { useContext } from 'preact/hooks';
+import { MegaPhone } from './icons/mega-phone';
 
 interface SidebarProps {
 	children?: VNode | VNode[];
@@ -34,9 +35,18 @@ const SideBar = ({ children }: SidebarProps) => {
 			</div>
 			<div className={tw('mb-4')}>
 				<ul>
-					<li><a href="#" target="_blank" className={tw('font-bold font-mono')}>Apple Podcasts</a></li>
+					<li><a href="https://podcasts.apple.com/us/podcast/runtime-fm/id1687932747" target="_blank" className={tw('font-bold font-mono')}>Apple Podcasts</a></li>
 					<li><a href="https://open.spotify.com/show/15z8cEpiTnbmmQy5EDt4Sy" target="_blank" className={tw('font-bold font-mono')}>Spotify</a></li>
 					<li><a href="/rss.xml" target="_blank" className={tw('font-bold font-mono')}>RSS</a></li>
+				</ul>
+			</div>
+			<div className={tw('flex items-center mb-2')}>
+				<MegaPhone />
+				<p className={tw('ml-2 text-lg font-bold')}>Want more</p>
+			</div>
+			<div className={tw('mb-4')}>
+				<ul>
+					<li><a href="https://discord.gg/nTajDw3HC5" target="_blank" className={tw('font-bold font-mono')}>Join the Discord</a></li>
 				</ul>
 			</div>
 		</aside>
