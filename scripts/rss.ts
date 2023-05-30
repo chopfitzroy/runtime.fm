@@ -2,6 +2,8 @@ import type { TrackCollection } from '../public/helpers/tracks';
 
 import * as fs from 'fs/promises';
 
+import { getAudioDurationInSeconds } from 'get-audio-duration';
+
 import { Podcast } from 'podcast';
 import { createFileUrlFromRecord, pocketbase } from '../public/helpers/pocketbase';
 
@@ -37,7 +39,7 @@ const createFeed = async () => {
 		}],
 	});
 
-	tracks.forEach(track => {
+	for (const track of tracks) {
 		feed.addItem({
 			title: track.title,
 			description: track.description,
@@ -46,18 +48,19 @@ const createFeed = async () => {
 			categories: ['Technology'],
 			author: 'Otis Sutton',
 			date: track.created,
-			// @TODO
-			// - What is this?
-			// enclosure: { url: '...', file: 'path-to-file' },
+			enclosure: {
+				url: createFileUrlFromRecord(track, 'audio'),
+				type: 'audio/mpeg',
+			},
 			itunesImage: `https://art.runtime.fm/api/album-art?id=${track.id}`,
 			itunesAuthor: 'Otis Sutton',
 			itunesExplicit: false,
 			itunesSubtitle: track.title,
 			itunesSummary: track.description,
-			itunesDuration: 12345,
+			itunesDuration: await getAudioDurationInSeconds(createFileUrlFromRecord(track, 'audio')),
 			itunesNewFeedUrl: 'https://runtime.fm/rss.xml',
 		});
-	});
+	};
 
 	// @TODO
 	// - Write to file
