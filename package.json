@@ -19,6 +19,7 @@
 		"date-fns": "^2.29.3",
 		"howler": "^2.2.3",
 		"localforage": "^1.10.0",
+		"markdown-to-jsx": "^7.2.0",
 		"pocketbase": "^0.10.1",
 		"preact": "^10.11.3",
 		"preact-iso": "^2.3.1",

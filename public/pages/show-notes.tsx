@@ -7,11 +7,18 @@ import { PlayCircle } from "../components/icons/play-circle";
 import { PlayerControls } from "../components/player/controls";
 import { SideBar } from "../components/side-bar";
 import { Tracks } from "../context/tracks";
+import { useAsset } from "use-asset";
+import Markdown from "markdown-to-jsx";
 
+const getContents = async (_: string) => {
+	const contents = await fetch('/content/001-2023-Tech-Trends.md');
+	return contents.text();
+}
 
 const ShowNotes = () => {
 	const route = useRoute();
 	const tracks = useContext(Tracks)
+	const contents = useAsset(getContents, "showNotes");
 
 	const current = tracks.find(track => track.id === route.params.id);
 
@@ -41,7 +48,7 @@ const ShowNotes = () => {
 									</a>
 								</div>
 								<div className={tw('flex(grow) ml-2')}>
-									<p className={tw('font-mono')}>{current.description}</p>
+									<Markdown children={contents} />
 								</div>
 							</div>
 						</div>
