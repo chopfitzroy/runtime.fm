@@ -15,7 +15,7 @@ export function Routes() {
         <Route path="/about" component={About} />
         <Route path="/signin" component={Signin} />
         <Route path="/signup" component={Signup} />
-        <Route path="/show-notes/:id" component={ShowNotes} />
+        <Route path="/notes/:episode" component={ShowNotes} />
         <Route default component={NotFound} />
       </Router>
   )

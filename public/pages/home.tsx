@@ -40,10 +40,8 @@ export default function Home() {
 													{track.state === 'finished' && 'Listen again'}
 												</span>
 											</a>
-											<span className={tw('hidden')}>
-												<span className={tw('inline-block mx-2 text-gray-300')}>&#47;</span>
-												<a href={`/show-notes/${track.id}`} className={tw('text-sm font-bold font-mono')}>Show notes</a>
-											</span>
+											<span className={tw('inline-block mx-2 text-gray-300')}>&#47;</span>
+											<a href={`/notes/${track.episode}`} className={tw('text-sm font-bold font-mono')}>Show notes</a>
 										</div>
 										<div>
 											{track.state === 'continue' && (

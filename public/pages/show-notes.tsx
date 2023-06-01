@@ -1,26 +1,49 @@
-import { useRoute } from "preact-iso";
-import { useContext } from "preact/hooks";
-import { tw } from "twind";
-import { Warning } from "../components/core/warning";
-import { Header } from "../components/header";
-import { PlayCircle } from "../components/icons/play-circle";
-import { PlayerControls } from "../components/player/controls";
-import { SideBar } from "../components/side-bar";
-import { Tracks } from "../context/tracks";
-import { useAsset } from "use-asset";
 import Markdown from "markdown-to-jsx";
 
-const getContents = async (_: string) => {
-	const contents = await fetch('/content/001-2023-Tech-Trends.md');
+// @ts-expect-error
+import files from 'dir:../content';
+
+import { tw } from "twind";
+import { useAsset } from "use-asset";
+import { useRoute } from "preact-iso";
+import { useContext } from "preact/hooks";
+import { Tracks } from "../context/tracks";
+import { Header } from "../components/header";
+import { SideBar } from "../components/side-bar";
+import { Warning } from "../components/core/warning";
+import { PlayCircle } from "../components/icons/play-circle";
+import { PlayerControls } from "../components/player/controls";
+
+const getContents = async (_key: string, episode: number) => {
+	const episodes = (files as string[]).map(file => {
+		const [segment] = file.split('-');
+		const episode = parseInt(segment);
+		
+		return {
+			file,
+			episode,	
+		}
+	});
+
+	const target = episodes.find(item => item.episode === episode);
+
+	if (target === undefined) {
+		return 'Sorry, we were unable to find show notes 👀';
+	}
+	
+	const contents = await fetch(`/content/${target.file}`);
+
+	console.log({ contents });
+
 	return contents.text();
 }
 
 const ShowNotes = () => {
 	const route = useRoute();
 	const tracks = useContext(Tracks)
-	const contents = useAsset(getContents, "showNotes");
+	const contents = useAsset(getContents, "showNotes", parseInt(route.params.episode));
 
-	const current = tracks.find(track => track.id === route.params.id);
+	const current = tracks.find(track => track.episode === parseInt(route.params.episode));
 
 	if (current === undefined) {
 		return null;
