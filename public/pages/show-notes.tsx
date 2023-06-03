@@ -4,7 +4,6 @@ import Markdown from "markdown-to-jsx";
 import files from 'dir:../content';
 
 import { tw } from "twind";
-import { useAsset } from "use-asset";
 import { useRoute } from "preact-iso";
 import { useContext } from "preact/hooks";
 import { Tracks } from "../context/tracks";
@@ -13,8 +12,9 @@ import { SideBar } from "../components/side-bar";
 import { Warning } from "../components/core/warning";
 import { PlayCircle } from "../components/icons/play-circle";
 import { PlayerControls } from "../components/player/controls";
+import { usePromise } from "../hooks/use-promise";
 
-const getContents = async (_key: string, episode: number) => {
+const getContents = ( episode: number) => async () => {
 	const episodes = (files as string[]).map(file => {
 		const [segment] = file.split('-');
 		const episode = parseInt(segment);
@@ -33,15 +33,13 @@ const getContents = async (_key: string, episode: number) => {
 	
 	const contents = await fetch(`/content/${target.file}`);
 
-	console.log({ contents });
-
 	return contents.text();
 }
 
 const ShowNotes = () => {
 	const route = useRoute();
 	const tracks = useContext(Tracks)
-	const contents = useAsset(getContents, "showNotes", parseInt(route.params.episode));
+	const contents = usePromise(`showNotes-${route.params.episode}`, getContents(parseInt(route.params.episode)));
 
 	const current = tracks.find(track => track.episode === parseInt(route.params.episode));
 

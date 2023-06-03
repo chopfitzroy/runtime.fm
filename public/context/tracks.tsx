@@ -1,8 +1,8 @@
-import { useAsset } from 'use-asset';
 import { createContext, VNode } from 'preact';
 import { getTracks } from '../helpers/tracks';
 import { restoreHistory } from '../helpers/restore';
 import { checkFinished } from '../helpers/misc';
+import { usePromise } from '../hooks/use-promise';
 
 type State = 'waiting' | 'continue' | 'finished';
 type Track = Awaited<ReturnType<typeof getTracks>>[number]
@@ -18,8 +18,8 @@ interface TracksProviderProps {
 }
 
 export function TracksProvider({ children }: TracksProviderProps) {
-  const tracks = useAsset(getTracks, "tracks")
-  const history = useAsset(restoreHistory, "history");
+  const tracks = usePromise("tracks", getTracks)
+  const history = usePromise("history", restoreHistory);
 
   const hydrated = tracks.map(track => {
     const match = history.find(item => item.id === track.id);
