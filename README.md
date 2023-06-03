@@ -27,7 +27,7 @@ For API setup see this [repo](https://github.com/chopfitzroy/admin.runtime.fm/).
 
 We make extensive use of pre-rendering. To do this effectively we have to fetch data in a [suspense friendly](https://github.com/preactjs/wmr/tree/main/packages/preact-iso#prerenderjs) way.
 
-Initially we tried to do this with an _off the shelf_ solution, unfortunately we have a number of issues ([#950](https://github.com/preactjs/wmr/discussions/950), [#957](https://github.com/preactjs/wmr/issues/957)) when doing this, a list of the solutions we used can be found below:
+Initially we tried to do this with an _off the shelf_ solution, unfortunately we had a number of issues ([#950](https://github.com/preactjs/wmr/discussions/950), [#957](https://github.com/preactjs/wmr/issues/957)) when doing this, a list of the solutions we tried can be found below:
 
 - [`pmndrs/use-asset`](https://github.com/pmndrs/use-asset)
 - [`dai-shi/react-hooks-fetch`](https://github.com/dai-shi/react-hooks-fetch)
