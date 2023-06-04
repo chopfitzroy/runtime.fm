@@ -1,6 +1,7 @@
 import withTwind from '@twind/wmr';
 
 import { App } from './app';
+import { inject } from '@vercel/analytics';
 
 const { hydrate, prerender } = withTwind({
   theme: {
@@ -39,6 +40,7 @@ const { hydrate, prerender } = withTwind({
   }
 }, (data) => <App {...data} />)
 
+inject();
 hydrate(<App />);
 
 export { prerender };
