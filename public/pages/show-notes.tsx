@@ -13,6 +13,8 @@ import { Warning } from "../components/core/warning";
 import { PlayCircle } from "../components/icons/play-circle";
 import { PlayerControls } from "../components/player/controls";
 import { usePromise } from "../hooks/use-promise";
+import { useHead } from "hoofd";
+import { createFileUrlFromRecord } from "../helpers/pocketbase";
 
 const getContents = ( episode: number) => async () => {
 	const episodes = (files as string[]).map(file => {
@@ -44,17 +46,27 @@ const ShowNotes = () => {
 	const current = tracks.find(track => track.episode === parseInt(route.params.episode));
 
 	if (current === undefined) {
-		return null;
+		throw new Error('Track not found, aborting.');
 	}
+
+	useHead({
+    title: current.title,
+    metas: [
+			{ property: 'og:title', content: current.title },
+			{ property: 'og:audio', content: createFileUrlFromRecord(current, 'audio') },
+			{ property: 'og:image', content: `https://art.runtime.fm/api/album-art?id=${current.id}` },
+			{ property: 'og:description', content: current.description },
+		],
+  });
 
 	return (
 		<section className={tw('flex w-screen h-screen')}>
 			<SideBar>
 				<img src={`https://art.runtime.fm/api/album-art?id=${current.id}&size=500`} alt={current.title} />
 			</SideBar>
-			<div className={tw('relative flex(grow) pt-4 overflow-auto')}>
+			<div className={tw('relative w-full flex flex(col) justify-between overflow-auto')}>
 				{current === undefined ? <Warning message={'Sorry, we were unable to find show notes 👀'} /> :  (
-					<>
+					<div>
 						<Header>
 							<h1 className={tw('text-2xl')}>{current.title}</h1>
 						</Header>
@@ -68,12 +80,14 @@ const ShowNotes = () => {
 										<PlayCircle size={tw('w-12 h-12')} />
 									</a>
 								</div>
-								<div className={tw('flex(grow) ml-2')}>
+								{/* @NOTE The Twind typography plugin does not support custom config */}
+								{/* As a result we hack past it with the blow classes */}
+								<div className={tw('flex(grow) ml-2 prose font-mono h1:font-sans h2:font-sans h3:font-sans h4:font-sans h5:font-sans h6:font-sans')}>
 									<Markdown children={contents} />
 								</div>
 							</div>
 						</div>
-					</>
+					</div>
 				)}
 				<PlayerControls />
 			</div>

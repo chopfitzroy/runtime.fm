@@ -2,8 +2,10 @@ import withTwind from '@twind/wmr';
 
 import { App } from './app';
 import { inject } from '@vercel/analytics';
+import { toStatic } from 'hoofd';
+import typography from '@twind/typography';
 
-const { hydrate, prerender } = withTwind({
+const { hydrate, prerender: internal } = withTwind({
   theme: {
     extend: {
       fontFamily: (theme) => {
@@ -11,8 +13,17 @@ const { hydrate, prerender } = withTwind({
           sans: ['Karla', ...theme('fontFamily').sans],
           mono: ['Inconsolata', ...theme('fontFamily').mono],
         }
-      }
+      },
     },
+  },
+  plugins: typography(),
+  variants: {
+    'h1': '& h1',
+    'h2': '& h2',
+    'h3': '& h3',
+    'h4': '& h4',
+    'h5': '& h5',
+    'h6': '& h6',
   },
   preflight: {
     '@font-face': [
@@ -39,6 +50,31 @@ const { hydrate, prerender } = withTwind({
     ]
   }
 }, (data) => <App {...data} />)
+
+// @ts-expect-error
+async function prerender(data) {
+
+  const result = await internal(data);
+
+  const head = toStatic();
+
+  const { links = [], metas = [], scripts = [] } = head;
+
+  const elements = new Set([
+    ...links.map(props => ({ type: 'link', props })),
+    ...metas.map(props => ({ type: 'meta', props })),
+    ...scripts.map(props => ({ type: 'script', props }))
+  ]);
+
+  return {
+    ...result,
+    head: {
+      lang: head.lang,
+      title: head.title,
+      elements
+    }
+  };
+};
 
 inject();
 hydrate(<App />);

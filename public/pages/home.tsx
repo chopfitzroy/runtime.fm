@@ -7,12 +7,26 @@ import { playerSignal } from '../lib/audio-player-machine';
 import { SideBar } from '../components/side-bar';
 import { Header } from '../components/header';
 import { PlayCircle } from '../components/icons/play-circle';
+import { createFileUrlFromRecord } from '../helpers/pocketbase';
+import { useHead } from 'hoofd';
 
 export default function Home() {
 	const tracks = useContext(Tracks);
 
+	const [current] = tracks;
+
 	const showWarning = playerSignal.value.value === 'failed';
 	const errorMessage = playerSignal.value.context.reason;
+
+	useHead({
+    title: current.title,
+    metas: [
+			{ property: 'og:title', content: current.title },
+			{ property: 'og:audio', content: createFileUrlFromRecord(current, 'audio') },
+			{ property: 'og:image', content: `https://art.runtime.fm/api/album-art?id=${current.id}` },
+			{ property: 'og:description', content: current.description },
+		],
+  });
 
 	return (
 		<section className={tw('flex w-screen h-screen')}>
