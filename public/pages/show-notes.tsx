@@ -81,7 +81,7 @@ const ShowNotes = () => {
 							</a>
 						</p>
 						<div className={tw('flex')}>
-							<div className={tw('flex(grow) ml-2 prose font-mono heading:font-sans')}>
+							<div className={tw('flex(grow) ml-2 prose font-mono text-black heading:font-sans')}>
 								<Markdown children={contents} />
 							</div>
 						</div>

@@ -42,7 +42,7 @@ export default function Home() {
 							<div className={tw('border-b(2 black)')}>
 								<div className={tw('p-4')}>
 									<p className={tw('text-gray-500 text-sm font-mono')}>{track.created}</p>
-									<p className={tw('text-lg font-bold my-1 font-mono')}>{track.title}</p>
+									<p className={tw('text-lg font-bold my-1 font-sans')}>{track.title}</p>
 									<p className={tw('font-mono')}>{track.description}</p>
 									<div className={tw('flex items-center justify-between my-4')}>
 										<div className={tw('flex items-center')}>
