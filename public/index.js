@@ -56,6 +56,8 @@ async function prerender(data) {
   const { links = [], metas = [], scripts = [] } = head;
 
   const elements = new Set([
+    // @ts-expect-error
+    ...result.head.elements,
     ...links.map(props => ({ type: 'link', props })),
     ...metas.map(props => ({ type: 'meta', props })),
     ...scripts.map(props => ({ type: 'script', props }))
