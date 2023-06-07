@@ -13,4 +13,11 @@ Topics covered in this episode:
 - Software and IDE's 🐞
 - Deployment and hosting providers 🔮
 - Effective communication 🎧
+- [Helix](https://github.com/helix-editor/helix) 🧬
+- [Ansible](https://www.ansible.com/) 🎩
+- [Dotfiles](https://github.com/chopfitzroy/dotfiles-experiment) 🍍
+- [Firebase](https://firebase.google.com/) 🔥
+- [PocketBase](https://pocketbase.io/) 💎
+- [GitHub Template Repositories](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository) 🚀
+
 
