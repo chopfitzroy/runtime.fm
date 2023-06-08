@@ -7,12 +7,24 @@ import { playerSignal } from '../lib/audio-player-machine';
 import { SideBar } from '../components/side-bar';
 import { Header } from '../components/header';
 import { PlayCircle } from '../components/icons/play-circle';
+import { useHead } from 'hoofd';
 
 export default function Home() {
 	const tracks = useContext(Tracks);
 
+	const [current] = tracks;
+
 	const showWarning = playerSignal.value.value === 'failed';
 	const errorMessage = playerSignal.value.context.reason;
+
+	useHead({
+    title: 'Runtime FM',
+    metas: [
+			{ property: 'og:title', content: 'Runtime FM' },
+			{ property: 'og:image', content: `https://runtime.fm/art/${current.id}.png` },
+			{ property: 'og:description', content: 'Runtime FM is a podcast for software engineers interested in web development.' },
+		],
+  });
 
 	return (
 		<section className={tw('flex w-screen h-screen')}>
@@ -28,7 +40,7 @@ export default function Home() {
 							<div className={tw('border-b(2 black)')}>
 								<div className={tw('p-4')}>
 									<p className={tw('text-gray-500 text-sm font-mono')}>{track.created}</p>
-									<p className={tw('text-lg font-bold my-1 font-mono')}>{track.title}</p>
+									<p className={tw('text-lg font-bold my-1 font-sans')}>{track.title}</p>
 									<p className={tw('font-mono')}>{track.description}</p>
 									<div className={tw('flex items-center justify-between my-4')}>
 										<div className={tw('flex items-center')}>
@@ -40,10 +52,8 @@ export default function Home() {
 													{track.state === 'finished' && 'Listen again'}
 												</span>
 											</a>
-											<span className={tw('hidden')}>
-												<span className={tw('inline-block mx-2 text-gray-300')}>&#47;</span>
-												<a href={`/show-notes/${track.id}`} className={tw('text-sm font-bold font-mono')}>Show notes</a>
-											</span>
+											<span className={tw('inline-block mx-2 text-gray-300')}>&#47;</span>
+											<a href={`/notes/${track.episode}`} className={tw('text-sm font-bold font-mono')}>Show notes</a>
 										</div>
 										<div>
 											{track.state === 'continue' && (

@@ -4,6 +4,7 @@ import { Collection, createFileUrlFromRecord, pocketbase } from './pocketbase'
 export type TrackCollection = Collection<{
   title: string;
   audio: string;
+  episode: number;
   description: string;
 }>;
 

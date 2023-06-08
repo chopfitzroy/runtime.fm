@@ -1,7 +1,11 @@
-.cache
-node_modules
-dist
+.cache/
+
+dist/
+public/art/
+node_modules/
+
 stats.html
+
 .DS_Store
 .vercel
 .vercel.json

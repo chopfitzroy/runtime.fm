@@ -24,16 +24,16 @@ const Header = ({ children }: HeaderProps) => {
 	}, []);
 
 	return (
-		<div className={tw('flex items-center justify-between p-4 border-b(2 black)')}>
+		<div className={tw('flex items-start justify-between p-4 border-b(2 black)')}>
 			<div className={tw('md:hidden')}>
 					<a href="/about" className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold font-mono')}>About</a>
 			</div>
-			<div>{children}</div>
+			<div className={tw('px-2')}>{children}</div>
 			<div>
 				{loggedIn ? (
-					<button onClick={signOut} className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold font-mono leading-none')}>Sign out</button>
+					<button onClick={signOut} className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold font-mono leading-none whitespace-nowrap')}>Sign out</button>
 				) : (
-					<a href="/signin" className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold font-mono')}>Sign In</a>
+					<a href="/signin" className={tw('px-2 py-1 border(2 black) rounded text-sm font-bold font-mono whitespace-nowrap')}>Sign In</a>
 				)}
 			</div>
 		</div>

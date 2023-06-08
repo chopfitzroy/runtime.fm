@@ -11,7 +11,7 @@ const createMap = async () => {
   });
 
   const notes = tracks.map(track => ({
-    url: `/show-notes/${track.id}`,
+    url: `/notes/${track.episode}`,
     changefreq: 'weekly',
     priority: 0.5
   }))

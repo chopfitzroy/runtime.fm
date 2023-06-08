@@ -5,12 +5,28 @@ import { PlayerControls } from "../components/player/controls";
 import { CursorArrowRipple } from "../components/icons/cursor-arrow-ripple";
 import { InformationCircle } from "../components/icons/information-circle";
 import { MegaPhone } from "../components/icons/mega-phone";
+import { useHead } from "hoofd";
+import { useContext } from "preact/hooks";
+import { Tracks } from "../context/tracks";
 
 
+// @NOTE
+// - Should never get here on a non-mobile
+// - That being said we don't really mind if the page content is the same as the side bar
 const About = () => {
-	// @NOTE
-	// - Should never get here on a non-mobile
-	// - That being said we don't really mind if the page content is the same as the side bar
+	const tracks = useContext(Tracks);
+
+	const [current] = tracks;
+
+	useHead({
+		title: 'Runtime FM',
+		metas: [
+			{ property: 'og:title', content: 'Runtime FM' },
+			{ property: 'og:image', content: `https://runtime.fm/art/${current.id}.png` },
+			{ property: 'og:description', content: 'Runtime FM is a podcast for software engineers interested in web development.' },
+		],
+	});
+
 	return (
 		<section className={tw('flex w-screen h-screen')}>
 			<SideBar />

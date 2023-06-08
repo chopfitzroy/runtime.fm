@@ -1,6 +1,9 @@
 
 import { tw } from "twind";
 import { pocketbase } from "../helpers/pocketbase";
+import { useContext } from "preact/hooks";
+import { Tracks } from "../context/tracks";
+import { useHead } from "hoofd";
 
 const login = async (data: FormData) => {
 	await pocketbase.collection("users").create(data);
@@ -16,6 +19,19 @@ const submitHandler = async (event: Event) => {
 };
 
 export default function Signup() {
+	const tracks = useContext(Tracks);
+
+	const [current] = tracks;
+
+	useHead({
+		title: 'Sign up to Runtime FM',
+		metas: [
+			{ property: 'og:title', content: 'Sign up to Runtime FM' },
+			{ property: 'og:image', content: `https://runtime.fm/art/${current.id}.png` },
+			{ property: 'og:description', content: 'Create a Runtime FM account to keep tack of your listening progress across multiple devices.' },
+		],
+	});
+
 	return (
 		<div className={tw('flex items-center justify-center w-screen h-screen p-4')}>
 			<div className={tw('p-4 w-full max-w-md rounded border(2 black)')}>

@@ -19,7 +19,7 @@ const SideBar = ({ children }: SidebarProps) => {
 	return (
 		<aside className={tw('w-full max-w-sm hidden px-4 overflow-auto border-r(2 black) md:block')}>
 			{children ? children : (
-				<img src={`https://art.runtime.fm/api/album-art?id=${latest.id}&size=500`} alt={latest.title} />
+				<img src={`/art/thumb/${latest.id}.png`} alt={latest.title} />
 			)}
 			<div className={tw('flex items-center my-2')}>
 				<InformationCircle />
