@@ -7,7 +7,6 @@ import { playerSignal } from '../lib/audio-player-machine';
 import { SideBar } from '../components/side-bar';
 import { Header } from '../components/header';
 import { PlayCircle } from '../components/icons/play-circle';
-import { createFileUrlFromRecord } from '../helpers/pocketbase';
 import { useHead } from 'hoofd';
 
 export default function Home() {
@@ -19,12 +18,11 @@ export default function Home() {
 	const errorMessage = playerSignal.value.context.reason;
 
 	useHead({
-    title: current.title,
+    title: 'Runtime FM',
     metas: [
-			{ property: 'og:title', content: current.title },
-			{ property: 'og:audio', content: createFileUrlFromRecord(current, 'audio') },
-			{ property: 'og:image', content: `https://art.runtime.fm/api/album-art?id=${current.id}` },
-			{ property: 'og:description', content: current.description },
+			{ property: 'og:title', content: 'Runtime FM' },
+			{ property: 'og:image', content: `https://runtime.fm/art/${current.id}.png` },
+			{ property: 'og:description', content: 'Runtime FM is a podcast for software engineers interested in web development.' },
 		],
   });
 

@@ -1,13 +1,14 @@
 {
 	"private": true,
 	"scripts": {
-		"prod": "run-s build script",
-		"start": "wmr",
+		"prod": "run-s images build script",
+		"start": "run-s images watch",
+		"watch": "wmr",
 		"serve": "wmr serve",
 		"build": "wmr build --prerender",
+		"images": "tsx ./scripts/images.ts",
 		"script": "run-p script:*",
 		"script:rss": "tsx ./scripts/rss.ts",
-		"script:images": "tsx ./scripts/images.ts",
 		"script:vercel": "tsx ./scripts/vercel.ts",
 		"script:sitemap": "tsx ./scripts/sitemap.ts"
 	},

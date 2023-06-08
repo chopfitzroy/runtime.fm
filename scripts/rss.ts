@@ -44,7 +44,7 @@ const createFeed = async () => {
 		feed.addItem({
 			title: track.title,
 			description: track.description,
-			url: `https://runtime.fm/show-notes/${track.id}`,
+			url: `https://runtime.fm/notes/${track.episode}`,
 			guid: track.id,
 			categories: ['Technology'],
 			author: 'Otis Sutton',
@@ -64,8 +64,6 @@ const createFeed = async () => {
 		});
 	};
 
-	// @TODO
-	// - Write to file
 	const xml = feed.buildXml();
 	await fs.writeFile('./dist/rss.xml', xml);
 }

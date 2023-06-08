@@ -9,23 +9,35 @@ import download from 'image-downloader';
 import { pocketbase } from '../public/helpers/pocketbase';
 
 const createFeed = async () => {
-  const directory = path.join(__dirname, '../dist/art');
+  const main = path.join(__dirname, '../public/art');
+  const thumb = path.join(main, './thumb');
 
   const tracks = await pocketbase.collection('tracks').getFullList<TrackCollection>(200, {
     sort: '-created',
   });
 
 
-  if (!fsSync.existsSync(directory)) {
-    await fsAsync.mkdir(directory);
+  if (!fsSync.existsSync(main)) {
+    await fsAsync.mkdir(main);
   }
 
+  if (!fsSync.existsSync(thumb)) {
+    await fsAsync.mkdir(thumb);
+  }
+
+
   for (const track of tracks) {
-    await download.image({
-      url: `https://art.runtime.fm/api/album-art?id=${track.id}`,
-      dest: path.join(directory, `/${track.id}.png`),
-    })
-  };
+    await Promise.all([
+      download.image({
+        url: `https://art.runtime.fm/api/album-art?id=${track.id}`,
+        dest: path.join(main, `/${track.id}.png`),
+      }),
+      download.image({
+        url: `https://art.runtime.fm/api/album-art?id=${track.id}&size=500`,
+        dest: path.join(thumb, `/${track.id}.png`),
+      })
+    ])
+  }
 }
 
 createFeed();

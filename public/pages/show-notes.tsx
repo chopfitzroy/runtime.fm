@@ -4,15 +4,15 @@ import Markdown from "markdown-to-jsx";
 import files from 'dir:../content';
 
 import { tw } from "twind";
+import { useHead } from "hoofd";
 import { useRoute } from "preact-iso";
 import { useContext } from "preact/hooks";
 import { Tracks } from "../context/tracks";
 import { Header } from "../components/header";
 import { SideBar } from "../components/side-bar";
+import { usePromise } from "../hooks/use-promise";
 import { PlayCircle } from "../components/icons/play-circle";
 import { PlayerControls } from "../components/player/controls";
-import { usePromise } from "../hooks/use-promise";
-import { useHead } from "hoofd";
 import { createFileUrlFromRecord } from "../helpers/pocketbase";
 
 const getContents = (episode: number) => async () => {
@@ -29,7 +29,7 @@ const getContents = (episode: number) => async () => {
 	const target = episodes.find(item => item.episode === episode);
 
 	if (target === undefined) {
-		return 'Sorry, we were unable to find show notes 👀';
+		return 'Show notes for this episode are still being uploaded, please try again later.';
 	}
 
 	const contents = await fetch(`/content/${target.file}`);
@@ -45,7 +45,7 @@ const ShowNotes = () => {
 	const current = tracks.find(track => track.episode === parseInt(route.params.episode));
 
 	if (current === undefined) {
-		throw new Error('Sorry, we were unable to find show notes 👀');
+		throw new Error(`Whoops! Something we couldn't find that episode!`);
 	}
 
 	useHead({
@@ -53,7 +53,7 @@ const ShowNotes = () => {
 		metas: [
 			{ property: 'og:title', content: current.title },
 			{ property: 'og:audio', content: createFileUrlFromRecord(current, 'audio') },
-			{ property: 'og:image', content: `https://art.runtime.fm/api/album-art?id=${current.id}` },
+			{ property: 'og:image', content: `https://runtime.fm/art/${current.id}.png` },
 			{ property: 'og:description', content: current.description },
 		],
 	});
@@ -61,7 +61,7 @@ const ShowNotes = () => {
 	return (
 		<section className={tw('flex w-screen h-screen')}>
 			<SideBar>
-				<img src={`https://art.runtime.fm/api/album-art?id=${current.id}&size=500`} alt={current.title} />
+				<img src={`/art/thumb/${current.id}.png`} alt={current.title} />
 			</SideBar>
 			<div className={tw('relative w-full flex flex(col) justify-between overflow-auto')}>
 				<div>
