@@ -1,8 +1,8 @@
 ### 2023 Tech Trends 🔥
 
-It's this time of year that some developers like to reflect on how they work and what improvements they could possibly make.
+It's that time of year again, engineers are taking the time to reflect on how they work and what improvements they might be able to make to improve their workflow.
 
-Some may even go as far as to try to predict what the coming year holds, in today's episode Otis and Keez discuss all the things the anticipate coming as part of 2023.
+Some may even go as far as to try to predict what the coming year holds, in today's episode Otis and Keez discuss all the trends they anticipate as part of 2023.
 
 Topics covered in this episode:
 
